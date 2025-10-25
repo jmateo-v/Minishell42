@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execute.c                                       :+:      :+:    :+:   */
+/*   minishell_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/25 13:37:18 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/10/23 18:39:56 by dansanc3         ###   ########.fr       */
+/*   Created: 2025/10/22 11:07:34 by dogs              #+#    #+#             */
+/*   Updated: 2025/10/23 18:36:41 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-int	ft_execute(t_cli *cli)
+int	main(int argc, char **argv, char **envp)
 {
-	int	last_status;
+	t_shenv		*env;
+	extern int	rl_catch_signals;
+	t_cli		*cli;
+	int			status;
 
-	last_status = 0;
-	expand_cli_args_wildcard(cli);
-	if (!cli || !cli->cmd)
-		return (perror("!cmd"), 127);
-	if (has_pipes_or_redirs(cli))
-		last_status = execute_pipeline(cli);
-	else if (cli->is_builtin)
-		last_status = execute_builtin(cli);
-	else
-		last_status = execute_command(cli);
-	return (last_status);
+	(void)argc;
+	(void)argv;
+	cli = ft_setup_shell(envp, &env);
+	if (!cli)
+		return (ft_free_env(&env), 2);
+	status = shell_loop(cli);
+	ft_cleanup_shell(&cli, &env);
+	return (status);
 }
-
-
-

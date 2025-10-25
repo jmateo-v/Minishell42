@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/19 15:41:29 by dogs             ###   ########.fr       */
+/*   Updated: 2025/10/23 18:39:31 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@
 # include <sys/ioctl.h>
 # include <stdbool.h>
 # include <errno.h>
+
+
+# include <stddef.h> //TODO revisar si está permitido
 
 # define HERE_PIPE 3
 # define HERE_DOC 2
@@ -86,7 +89,7 @@ typedef	struct s_shenv
 }	t_shenv;
 typedef struct s_segment {
     char        *value;
-    t_quote_type type; 
+    t_quote_type type;
 }   t_segment;
 typedef struct s_token
 
@@ -219,4 +222,7 @@ int is_pipe(const char *s);
 void check_command_errors(t_cli *cmd);
 int ft_prepare_heredoc_fd(t_cli *cli);
 int ft_prepare_all_heredocs(t_cli *cli);
+void expand_cli_args_wildcard(t_cli *cli);
+char **expand_wildcards(const char *pattern);
+void free_wildcard_matches(char **matches);
 #endif

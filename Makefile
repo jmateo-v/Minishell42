@@ -3,6 +3,9 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
+BONUS_OBJS = minishell_bonus.o wildcard_bonus.o wildcard.o parsing/wildcard_expansion_bonus.o
+BONUS_BINS = minishell_bonus
+
 GNL_DIR = get_next_line
 GNL_A = $(GNL_DIR)/get_next_line.a
 GNL_HEADER = -I$(GNL_DIR)
@@ -65,14 +68,35 @@ $(GNL_A):
 %.o: %.c
 	cc $(CFLAGS) -c $< -o $@
 
-
 clean:
 	rm -f $(OBJ)
 	$(MAKE) clean -C $(LIBFT_DIR)
 	$(MAKE) clean -C $(GNL_DIR)
 
+bonus: $(BONUS_BINS)
+
+minishell_bonus: $(LIBFT_A) $(GNL_A) minishell_bonus.o parsing/wildcard_expansion_bonus.o wildcard.o $(filter-out minishell.o,$(OBJ))
+	cc $(CFLAGS) minishell_bonus.o parsing/wildcard_expansion_bonus.o wildcard.o $(filter-out minishell.o,$(OBJ)) $(LIBFT_A) $(GNL_A) -lreadline -o minishell_bonus
+
+parsing/wildcard_expansion_bonus.o: parsing/wildcard_expansion_bonus.c minishell.h
+	cc $(CFLAGS) -c parsing/wildcard_expansion_bonus.c -o parsing/wildcard_expansion_bonus.o
+
+wildcard_bonus: wildcard_bonus.o wildcard.o
+	cc $(CFLAGS) wildcard_bonus.o wildcard.o -o wildcard_bonus
+
+wildcard_bonus.o: wildcard_bonus.c
+	cc $(CFLAGS) -c wildcard_bonus.c -o wildcard_bonus.o
+
+wildcard.o: wildcard.c
+	cc $(CFLAGS) -c wildcard.c -o wildcard.o
+
+clean:
+	rm -f $(OBJ) $(BONUS_OBJS)
+	$(MAKE) clean -C $(LIBFT_DIR)
+	$(MAKE) clean -C $(GNL_DIR)
+
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(BONUS_BINS)
 	$(MAKE) fclean -C $(LIBFT_DIR)
 	$(MAKE) fclean -C $(GNL_DIR)
 
