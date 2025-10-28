@@ -18,7 +18,7 @@ SRC = minishell.c\
     tokenizing/token_separator/handle_escape_sequence.c\
     tokenizing/token_separator/handle_translation.c\
     tokenizing/token_separator/handle_quotes.c\
-    tokenizing/token_separator/flush_utils.c\
+    tokenizing/token_separator/separator_utils.c\
     tokenizing/token_expansion/token_expansion.c\
     tokenizing/token_expansion/expansion_utils.c\
     tokenizing/token_error.c\
