@@ -6,11 +6,12 @@
 /*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:37:18 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/10/23 18:39:56 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/10/28 20:11:30 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "minishell_bonus.h"
 
 int	ft_execute(t_cli *cli)
 {

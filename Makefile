@@ -3,7 +3,7 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
-BONUS_OBJS = minishell_bonus.o wildcard_bonus.o wildcard.o parsing/wildcard_expansion_bonus.o
+BONUS_OBJS = wildcard_bonus.o
 BONUS_BINS = minishell_bonus
 
 GNL_DIR = get_next_line
@@ -48,16 +48,17 @@ SRC = minishell.c\
     exec/exec_utils.c\
     utils/temp.c\
     utils/utils.c\
-    utils/utils1.c
+    utils/utils1.c\
+	wildcard_bonus.c
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS += -g -I$(LIBFT_DIR) $(GNL_HEADER) -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS += -g -I$(LIBFT_DIR) -Iinclude $(GNL_HEADER) -Wall -Wextra -Werror #-fsanitize=address
 
 all: $(NAME)
 
 $(NAME): $(LIBFT_A) $(GNL_A) $(OBJ)
-	cc $(CFLAGS) $(OBJ) $(LIBFT_A) $(GNL_A) -lreadline -o $(NAME)
+	cc $(CFLAGS) $(OBJ) $(LIBFT_A) $(GNL_A) -lreadline -o $(NAME) -Linclude/minishell_bonus.h
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -65,30 +66,19 @@ $(LIBFT_A):
 $(GNL_A):
 	$(MAKE) -C $(GNL_DIR)
 
-%.o: %.c
+%.o: %.c include/minishell_bonus.h
 	cc $(CFLAGS) -c $< -o $@
-
-clean:
-	rm -f $(OBJ)
-	$(MAKE) clean -C $(LIBFT_DIR)
-	$(MAKE) clean -C $(GNL_DIR)
 
 bonus: $(BONUS_BINS)
 
-minishell_bonus: $(LIBFT_A) $(GNL_A) minishell_bonus.o parsing/wildcard_expansion_bonus.o wildcard.o $(filter-out minishell.o,$(OBJ))
-	cc $(CFLAGS) minishell_bonus.o parsing/wildcard_expansion_bonus.o wildcard.o $(filter-out minishell.o,$(OBJ)) $(LIBFT_A) $(GNL_A) -lreadline -o minishell_bonus
+minishell_bonus: $(LIBFT_A) $(GNL_A) $(OBJ)
+	cc $(CFLAGS) $(OBJ) $(LIBFT_A) $(GNL_A) -lreadline -o minishell_bonus
 
-parsing/wildcard_expansion_bonus.o: parsing/wildcard_expansion_bonus.c minishell.h
-	cc $(CFLAGS) -c parsing/wildcard_expansion_bonus.c -o parsing/wildcard_expansion_bonus.o
-
-wildcard_bonus: wildcard_bonus.o wildcard.o
-	cc $(CFLAGS) wildcard_bonus.o wildcard.o -o wildcard_bonus
+wildcard_bonus: wildcard_bonus.o
+	cc $(CFLAGS) wildcard_bonus.o -o wildcard_bonus
 
 wildcard_bonus.o: wildcard_bonus.c
 	cc $(CFLAGS) -c wildcard_bonus.c -o wildcard_bonus.o
-
-wildcard.o: wildcard.c
-	cc $(CFLAGS) -c wildcard.c -o wildcard.o
 
 clean:
 	rm -f $(OBJ) $(BONUS_OBJS)
