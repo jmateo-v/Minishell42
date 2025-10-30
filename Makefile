@@ -3,7 +3,7 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
-BONUS_OBJS = wildcard_bonus.o
+BONUS_OBJS = wildcard_bonus.o exec/ft_execute_bonus.o
 BONUS_BINS = minishell_bonus
 
 GNL_DIR = get_next_line
@@ -33,7 +33,6 @@ SRC = minishell.c\
     parsing/parse_pipe.c\
     parsing/parse_utils.c\
     signals/signals.c\
-    exec/ft_execute.c\
     exec/exec_command.c\
     exec/exec_builtin.c\
     exec/exec_pipe.c\
@@ -57,8 +56,8 @@ CFLAGS += -g -I$(LIBFT_DIR) -Iinclude $(GNL_HEADER) -Wall -Wextra -Werror #-fsan
 
 all: $(NAME)
 
-$(NAME): $(LIBFT_A) $(GNL_A) $(OBJ)
-	cc $(CFLAGS) $(OBJ) $(LIBFT_A) $(GNL_A) -lreadline -o $(NAME) -Linclude/minishell_bonus.h
+$(NAME): $(LIBFT_A) $(GNL_A) $(OBJ) exec/ft_execute.o
+	cc $(CFLAGS) $(OBJ) exec/ft_execute.o $(LIBFT_A) $(GNL_A) -lreadline -o $(NAME)
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -71,8 +70,8 @@ $(GNL_A):
 
 bonus: $(BONUS_BINS)
 
-minishell_bonus: $(LIBFT_A) $(GNL_A) $(OBJ)
-	cc $(CFLAGS) $(OBJ) $(LIBFT_A) $(GNL_A) -lreadline -o minishell_bonus
+minishell_bonus: $(LIBFT_A) $(GNL_A) $(OBJ) exec/ft_execute_bonus.o
+	cc $(CFLAGS) $(OBJ) exec/ft_execute_bonus.o $(LIBFT_A) $(GNL_A) -lreadline -o minishell_bonus
 
 wildcard_bonus: wildcard_bonus.o
 	cc $(CFLAGS) wildcard_bonus.o -o wildcard_bonus
@@ -81,7 +80,7 @@ wildcard_bonus.o: wildcard_bonus.c
 	cc $(CFLAGS) -c wildcard_bonus.c -o wildcard_bonus.o
 
 clean:
-	rm -f $(OBJ) $(BONUS_OBJS)
+	rm -f $(OBJ) $(BONUS_OBJS) exec/ft_execute.o
 	$(MAKE) clean -C $(LIBFT_DIR)
 	$(MAKE) clean -C $(GNL_DIR)
 
