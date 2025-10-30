@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:08:21 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/24 11:33:51 by dogs             ###   ########.fr       */
+/*   Updated: 2025/10/30 18:20:20 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static t_token *clean_err_return(char *line, t_segment *segments, t_token *token
 t_token *ft_token_sep(char *line)
 {
     t_separator_ctx ctx;
-
     if (!init_separator_ctx(&ctx, line))
         return (NULL);
 

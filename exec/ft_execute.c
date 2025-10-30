@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:37:18 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/10/18 17:09:53 by dogs             ###   ########.fr       */
+/*   Updated: 2025/10/29 16:35:43 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int ft_execute(t_cli *cli)
 
     last_status = 0; 
     if (!cli || !cli->cmd)
-        return (perror("!cmd"), 127);
+        return (127);
     if (has_pipes_or_redirs(cli))
         last_status = execute_pipeline(cli);
     else if (cli->is_builtin)

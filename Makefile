@@ -49,7 +49,7 @@ SRC = minishell.c\
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS += -g -I$(LIBFT_DIR) $(GNL_HEADER) -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS += -g -I$(LIBFT_DIR) $(GNL_HEADER) -Wall -Wextra -Werror -fsanitize=address
 
 all: $(NAME)
 
