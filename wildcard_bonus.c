@@ -67,16 +67,33 @@ char	**expand_wildcards(const char *pattern)
 	size_t			i;
 
 	dir = opendir(".");
+	if (!dir)
+		return (NULL);
 	count = count_matches(pattern);
 	matches = malloc(sizeof(char *) * (count + 1));
-	i = 0;
-	if (!dir || !matches)
+	if (!matches)
+	{
+		closedir(dir);
 		return (NULL);
+	}
+	i = 0;
 	while ((entry = readdir(dir)))
 	{
+		if (strcmp(entry->d_name, ".") == 0
+			|| strcmp(entry->d_name, "..") == 0)
+			continue ;
 		if (match_pattern(pattern, entry->d_name))
 		{
 			matches[i] = strdup(entry->d_name);
+			if (!matches[i])
+			{
+				size_t k;
+				for (k = 0; k < i; k++)
+					free(matches[k]);
+				free(matches);
+				closedir(dir);
+				return (NULL);
+			}
 			i++;
 		}
 	}
