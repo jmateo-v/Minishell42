@@ -70,8 +70,14 @@ $(GNL_A):
 
 bonus: $(BONUS_BINS)
 
-minishell_bonus: $(LIBFT_A) $(GNL_A) $(OBJ) exec/ft_execute_bonus.o
-	cc $(CFLAGS) $(OBJ) exec/ft_execute_bonus.o $(LIBFT_A) $(GNL_A) -lreadline -o minishell_bonus
+parsing/parsing_bonus.o: parsing/parsing_bonus.c minishell.h
+	cc $(CFLAGS) -c parsing/parsing_bonus.c -o parsing/parsing_bonus.o
+
+tokenizing/token_error_bonus.o: tokenizing/token_error_bonus.c minishell.h
+	cc $(CFLAGS) -c tokenizing/token_error_bonus.c -o tokenizing/token_error_bonus.o
+
+minishell_bonus: $(LIBFT_A) $(GNL_A) $(OBJ) parsing/parsing_bonus.o exec/ft_execute_bonus.o tokenizing/token_error_bonus.o
+	cc $(CFLAGS) $(filter-out parsing/parsing.o tokenizing/token_error.o,$(OBJ)) parsing/parsing_bonus.o tokenizing/token_error_bonus.o exec/ft_execute_bonus.o $(LIBFT_A) $(GNL_A) -lreadline -o minishell_bonus
 
 wildcard_bonus: wildcard_bonus.o
 	cc $(CFLAGS) wildcard_bonus.o -o wildcard_bonus
