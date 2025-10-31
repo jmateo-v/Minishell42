@@ -6,7 +6,7 @@
 /*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/28 20:10:02 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/10/31 19:29:34 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 # include "get_next_line/get_next_line.h"
+#include "includes/tokenizer.h"
 # include <fcntl.h>
 # include <sys/resource.h>
 # include <dirent.h>
@@ -62,20 +63,13 @@
 # define HERE_PIPE_ERR "minishell: syntax error: unexpected end of file\nexit\n"
 # define SYN_ERR "minishell: syntax error near unexpected token `"
 # define UNEX_EOF "minishell: syntax error: unexpected end of file\n"
+# define ERR_NULL_TOKEN "minishell: internal error: null token\n"
+# define ERR_EMPTY_TOKEN "minishell: internal error: empty token\n"
+# define ERR_MISSING_REDIR_TARGET "minishell: syntax error: missing redir target for token "
 # define MAX_CMDS 64
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
-
-typedef enum e_quote_type //rename to seg_type
-{
-	QUOTE_NONE = 0,
-    QUOTE_SINGLE,
-    QUOTE_DOUBLE,
-	QUOTE_TRANSLATION,
-	QUOTE_LITERAL_DOLLAR,
-	OPERATOR
-}	t_quote_type;
 
 extern volatile sig_atomic_t	g_sig_rec;
 
@@ -84,17 +78,7 @@ typedef	struct s_shenv
 	char	*var;
 	struct s_shenv	*next;
 }	t_shenv;
-typedef struct s_segment {
-    char        *value;
-    t_quote_type type;
-}   t_segment;
-typedef struct s_token
 
-{
-	t_segment *segments;
-	char *value;
-	t_quote_type quote_type;
-} t_token;
 
 
 typedef struct s_cli
@@ -205,18 +189,10 @@ char *ft_strcpy(char *dest, const char *src);
 void ft_cleanup_shell(t_cli **cli, t_shenv **env);
 t_cli *ft_setup_shell(char **envp, t_shenv **env);
 int	ft_reset_signal(t_cli *cli);
-void flush_segment(char *buffer, int *buf_i, t_segment *segments, int *seg_i, t_quote_type *current_type);
-void flush_token(t_segment *segments, int seg_i, t_token *tokens, int *token_i);
-void flush_segment_with_type(char *buffer, int *buf_i, t_segment *segments, int *seg_i, t_quote_type type);
-void add_operator_token(char c, const char *line, int *i, t_token *tokens, int *token_i);
-int handle_escape_sequence(const char *line, int i, char *buffer, int *buf_i, t_quote_type state, t_quote_type *current_type);
-int handle_translation(const char *line, int i, char *buffer, int *buf_i, t_segment *segments, int *seg_i);
-int handle_quote_open(char c, char *buffer, int *buf_i, t_segment *segments, int *seg_i, t_quote_type *current_type, t_quote_type *state);
-void handle_quote_close(char c, char *buffer, int *buf_i, t_segment *segments, int *seg_i, t_quote_type *current_type, t_quote_type *state);
-void handle_operator(char c, char *line, int *i, char *buffer, int *buf_i, t_segment *segments, int *seg_i, t_quote_type *current_type, t_token *tokens, int *token_i);
 void ft_trunc(char *filename, t_cli *cli);
 int is_pipe(const char *s);
 void check_command_errors(t_cli *cmd);
 int ft_prepare_heredoc_fd(t_cli *cli);
 int ft_prepare_all_heredocs(t_cli *cli);
+int new_ft_check_errors(t_token *tokens, int n_tokens);
 #endif

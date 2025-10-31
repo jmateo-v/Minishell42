@@ -6,7 +6,7 @@
 /*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:55:04 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/28 19:26:35 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/10/31 19:28:51 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_parse(t_token *tokens, t_cli *cli)
 			i++;
 			continue;
 		}
-		if (tokens[i].value && !ft_strncmp(tokens[i].value, ">>", 2))
+		if (tokens[i].token_type == T_REDIRECTION && !ft_strncmp(tokens[i].value, ">>", 2))
 		{
 			if (i + 1 >= len)
 				return(perror("missing target for >>, SYN ERR"), ft_free_tokens(tokens), 2);
@@ -39,7 +39,7 @@ int	ft_parse(t_token *tokens, t_cli *cli)
 			i += 2;
 			continue;
 		}
-		else if (tokens[i].value[0] != '\0' && ft_strcmp(tokens[i].value, "<<") == 0)
+		else if (tokens[i].token_type == T_REDIRECTION && ft_strcmp(tokens[i].value, "<<") == 0)
 		{
 			if (i + 1 >= len)
             	return (ft_perror("missing target for <<", SYN_ERR), ft_free_tokens(tokens), 2);
@@ -48,7 +48,7 @@ int	ft_parse(t_token *tokens, t_cli *cli)
         	i += 2;
         	continue;
 		}
-        else if (tokens[i].value && !ft_strncmp(tokens[i].value, ">", 1) && ft_strlen(tokens[i].value) == 1)
+        else if (tokens[i].token_type == T_REDIRECTION && !ft_strncmp(tokens[i].value, ">", 1) && ft_strlen(tokens[i].value) == 1)
 		{
 			if (i + 1 >= len)
 				return (ft_perror("missing target for >", SYN_ERR), 2);
@@ -56,7 +56,7 @@ int	ft_parse(t_token *tokens, t_cli *cli)
 			i += 2;
 			continue;
 		}
-		else if (tokens[i].value && !ft_strncmp(tokens[i].value, "<", 1) && ft_strlen(tokens[i].value) == 1)
+		else if (tokens[i].token_type == T_REDIRECTION && !ft_strncmp(tokens[i].value, "<", 1) && ft_strlen(tokens[i].value) == 1)
 		{
 			if (i + 1 >= len)
 				return (ft_perror("missing target for <", SYN_ERR), 2);
@@ -64,7 +64,7 @@ int	ft_parse(t_token *tokens, t_cli *cli)
 			i += 2;
 			continue;
 		}
-		else if (tokens[i].value && is_pipe(tokens[i].value))
+		else if (tokens[i].token_type == T_OPERATOR && is_pipe(tokens[i].value))
 		{
 			cli->next = ft_parse_pipe(tokens[i].value, cli);
 			if (!cli->next)
