@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:19:33 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/19 10:43:58 by dogs             ###   ########.fr       */
+/*   Updated: 2025/10/24 11:40:09 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int ft_token_finalize(t_token *tok)
 
     tok->value = res;
 
-    tok->quote_type = tok->segments[0].type;
+    tok->seg_type = tok->segments[0].type;
 
     return (1);
 }

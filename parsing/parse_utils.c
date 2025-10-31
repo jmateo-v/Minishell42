@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:46:30 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/19 11:15:08 by dogs             ###   ########.fr       */
+/*   Updated: 2025/10/21 16:26:06 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,11 @@ int ft_token_count(t_token *tokens)
         return 0;
 
     while (tokens[count].segments)
-    {
-        if (tokens[count].value != NULL)
-            count++;
-        else
-            break;
-    }
+        count++;
+
     return count;
 }
+
 
 int     ft_args(char *token, t_cli *cli, int pos)
 {

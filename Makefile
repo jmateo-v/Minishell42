@@ -18,7 +18,7 @@ SRC = minishell.c\
     tokenizing/token_separator/handle_escape_sequence.c\
     tokenizing/token_separator/handle_translation.c\
     tokenizing/token_separator/handle_quotes.c\
-    tokenizing/token_separator/flush_utils.c\
+    tokenizing/token_separator/separator_utils.c\
     tokenizing/token_expansion/token_expansion.c\
     tokenizing/token_expansion/expansion_utils.c\
     tokenizing/token_error.c\
@@ -49,7 +49,7 @@ SRC = minishell.c\
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS += -g -I$(LIBFT_DIR) $(GNL_HEADER) -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS += -g -I$(LIBFT_DIR) $(GNL_HEADER) -Wall -Wextra -Werror -fsanitize=address
 
 all: $(NAME)
 
