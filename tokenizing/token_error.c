@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:17:53 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/30 11:55:19 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/02 19:25:18 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,8 @@ int new_ft_check_errors(t_token *tokens, int n_tokens)
             return (ft_perror("(null)", ERR_EMPTY_TOKEN), 1);
         if (tokens[i].token_type == T_REDIRECTION)
         {
-            if (i == 0)
-                return (ft_perror(tokens[i].value, ERR_MISSING_REDIR_TARGET), 1);
             if (i + 1 >= n_tokens || tokens[i + 1].token_type != T_WORD)
                 return (ft_perror(tokens[i].value, ERR_MISSING_REDIR_TARGET), 1);
-            
         }
         if (tokens[i].token_type == T_OPERATOR && strcmp(tokens[i].value, "|") == 0)
         {
