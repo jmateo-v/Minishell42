@@ -6,18 +6,18 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:37:18 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/11/02 18:26:46 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/02 18:50:35 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "minishell_bonus.h"
+#include "../include/minishell_bonus.h"
 
-int	ft_execute(t_ cli *cli)
+int	ft_execute(t_cli *cli)
 {
-    int last_status;
+	int	last_status;
 
-    last_status = 0; 
+    last_status = 0;
     if (!cli || !cli->cmd)
         return (127);
     if (has_pipes_or_redirs(cli))
