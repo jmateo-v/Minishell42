@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 16:52:27 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/18 17:17:31 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/02 19:04:27 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ int ft_cd(char **args, t_shenv **env)
     char *target;
 
     target = NULL;
+    if (args[1] && args[2])
+    {
+        ft_putstr_fd("cd: too many arguments\n", 2);
+        return (1);
+    }
     if (!getcwd(cwd, sizeof(cwd)))
         return(perror("cd: getcwd"), 1);
     if (!args[1] || !args[1][0])
