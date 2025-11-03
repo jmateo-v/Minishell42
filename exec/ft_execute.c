@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:37:18 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/11/02 18:50:35 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/02 22:08:22 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 int	ft_execute(t_cli *cli)
 {
 	int	last_status;
-
     last_status = 0;
     if (!cli || !cli->cmd)
         return (127);

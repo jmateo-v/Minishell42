@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:23:56 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/02 19:19:20 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/03 00:00:35 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,16 @@ char *ft_read_input(void)
     {
         rl_outstream = stderr;
         cl = readline("\033[1;38;5;117mminishell\033[0m$ ");
-        if (!cl)
-            write(1, "exit\n", 5);
+
+        if (!cl || cl[0] == '\0')
+        {
+            free(cl);
+            return NULL;
+        }
     }
     else
     {
+        //rl_outstream = stderr;
         cl = get_next_line(STDIN_FILENO);
         if (cl)
         {
@@ -33,19 +38,15 @@ char *ft_read_input(void)
                 cl[len - 1] = '\0';
         }
     }
+
     return cl;
 }
-bool ft_check_signal_interrupt(char *cl, t_cli *cli)
-{
-    if (g_sig_rec && ft_reset_signal(cli))
-        return true;
-    if (cl[0] != '\0')
-        add_history(cl);
-    return false;
-}
+
 
 int ft_process_command(char *cl, t_cli *cli)
 {
+    if (!cl || cl[0] == '\0')
+        return 1;
     t_token *tokens = ft_tokenize_cl(cl, cli);
     if (!tokens)
         return 2;
@@ -66,16 +67,31 @@ int shell_loop(t_cli *cli)
     {
         if (cl)
             free(cl);
+        rl_event_hook = ft_sig_hook;
         cl = ft_read_input();
+        rl_event_hook = NULL;
+        if (g_sig_rec)
+        {
+            ft_reset_signal(cli);
+            continue;
+        }
         if (!cl)
+        {
+            if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+                write(1, "exit\n", 5);
             break;
-        if (ft_check_signal_interrupt(cl, cli))
+        }
+        if (cl[0] == '\0')
+        {
+            free(cl);
             continue;
+        }
         cli->status = ft_process_command(cl, cli);
-        if (!isatty(STDIN_FILENO))
-            continue;
         cli->last_status = cli->status;
     }
-    rl_clear_history();
-    return cli->status;
+        rl_clear_history();
+        return cli->status;
 }
+
+
+

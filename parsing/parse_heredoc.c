@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:21:41 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/18 15:22:36 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/02 23:42:42 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,11 @@ static int  ft_read_heredoc(t_cli *cli, int *option, char *delim)
     {
         line = NULL;
         if (interactive)
+		{
+            rl_event_hook = ft_sig_hook;
             line = readline("> ");
+            rl_event_hook = NULL;
+		}
         else
             line = get_next_line(STDIN_FILENO);
 
