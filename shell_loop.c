@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:23:56 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/03 00:00:35 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/03 00:06:45 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char *ft_read_input(void)
     }
     else
     {
-        //rl_outstream = stderr;
         cl = get_next_line(STDIN_FILENO);
         if (cl)
         {
@@ -86,6 +85,7 @@ int shell_loop(t_cli *cli)
             free(cl);
             continue;
         }
+        add_history(cl);
         cli->status = ft_process_command(cl, cli);
         cli->last_status = cli->status;
     }
