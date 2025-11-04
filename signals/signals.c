@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:30:15 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/02 23:18:44 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/03 17:53:40 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,10 @@ void ft_set_sig(int option)
         ft_memset(&sa_int, 0, sizeof(sa_int));
 
     sa_int.sa_handler = ft_sig_int_parent;
-    sa_int.sa_flags = 0;                // ❌ no SA_RESTART here
+    sa_int.sa_flags = 0;
 
     sigaction(SIGINT, &sa_int, NULL);
 
-    // often you also ignore SIGQUIT in the parent like bash does:
     ft_memset(&sa_int, 0, sizeof(sa_int));
     sa_int.sa_handler = SIG_IGN;
     sigaction(SIGQUIT, &sa_int, NULL);
