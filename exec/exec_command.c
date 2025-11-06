@@ -12,75 +12,77 @@
 
 #include "../minishell.h"
 
-char **prepare_env(t_cli *cmd)
+char	**prepare_env(t_cli *cmd)
 {
-    char **env;
-    
-    env = ft_getshenv(*(cmd->env));
-    if (!env && cmd->env)
-        exit(2);
-    return env;
-}
-void run_execve(t_cli *cmd, char **env) 
-{
-    execve(cmd->cmd, cmd->args, env);
-    int err = errno;
-    ft_free_env(cmd->env);
-    ft_free_str_array(&env);
-    ft_free_list(&cmd);
-    perror("execve");
+	char	**env;
 
-    if (err == ENOENT || err == ENOEXEC)
-        exit(127);
-    else
-        exit(126);
+	env = ft_getshenv(*(cmd->env));
+	if (!env && cmd->env)
+		exit(2);
+	return (env);
 }
 
-void handle_child(t_cli *cmd) 
+void	run_execve(t_cli *cmd, char **env)
 {
-    ft_set_sig(CHILD);
-    char **env = prepare_env(cmd);
-    check_command_errors(cmd);
-    run_execve(cmd, env);
+	int	err;
+
+	execve(cmd->cmd, cmd->args, env);
+	err = errno;
+	ft_free_env(cmd->env);
+	ft_free_str_array(&env);
+	ft_free_list(&cmd);
+	perror("execve");
+	if (err == ENOENT || err == ENOEXEC)
+		exit(127);
+	else
+		exit(126);
 }
 
-int handle_parent(pid_t pid, t_cli *cmd) 
+void	handle_child(t_cli *cmd)
 {
-    waitpid(pid, &cmd->status, 0);
-    ft_set_sig(PARENT);
-    if (WIFSIGNALED(cmd->status)) 
-    {
-        if (WTERMSIG(cmd->status) == SIGINT)
-            write(STDOUT_FILENO, "\n", 1);
-        if (WTERMSIG(cmd->status) == SIGQUIT)
-            write(STDOUT_FILENO, "Quit (Core dumped)\n", 19);
-        return (128 + WTERMSIG(cmd->status));
-    }
-    else if (WIFEXITED(cmd->status)) 
-        return (WEXITSTATUS(cmd->status));
-    else 
-        return (cmd->status);
+	char	**env;
+
+	ft_set_sig(CHILD);
+	env = prepare_env(cmd);
+	check_command_errors(cmd);
+	run_execve(cmd, env);
 }
 
-
-
-int execute_command(t_cli *cmd)
+int	handle_parent(pid_t pid, t_cli *cmd)
 {
-    pid_t   pid;
-    
-    if (!cmd || !cmd->cmd)
-        return (-1);
-    ft_set_sig(IGNORE);
-    pid = fork();
-    if (pid == 0)
-        handle_child(cmd);
-    else if (pid > 0)
-        return (handle_parent(pid, cmd));
-    else
-    {
-        perror("fork failed");
-        ft_set_sig(PARENT);
-        return (-1);
-    }
-    return(-1);
+	waitpid(pid, &cmd->status, 0);
+	ft_set_sig(PARENT);
+	if (WIFSIGNALED(cmd->status))
+	{
+		if (WTERMSIG(cmd->status) == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
+		if (WTERMSIG(cmd->status) == SIGQUIT)
+			write(STDOUT_FILENO, "Quit (Core dumped)\n", 19);
+		return (128 + WTERMSIG(cmd->status));
+	}
+	else if (WIFEXITED(cmd->status))
+		return (WEXITSTATUS(cmd->status));
+	else
+		return (cmd->status);
+}
+
+int	execute_command(t_cli *cmd)
+{
+	pid_t	pid;
+
+	if (!cmd || !cmd->cmd)
+		return (-1);
+	ft_set_sig(IGNORE);
+	pid = fork();
+	if (pid == 0)
+		handle_child(cmd);
+	else if (pid > 0)
+		return (handle_parent(pid, cmd));
+	else
+	{
+		perror("fork failed");
+		ft_set_sig(PARENT);
+		return (-1);
+	}
+	return (-1);
 }
