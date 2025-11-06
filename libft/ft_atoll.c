@@ -11,66 +11,67 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-
 #include <limits.h>
 
-static const char *skip_whitespace(const char *str)
+static const char	*skip_whitespace(const char *str)
 {
-    while (*str == ' ' || (*str >= 9 && *str <= 13))
-        str++;
-    return str;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	return (str);
 }
 
-static int get_sign(const char **str)
+static int	get_sign(const char **str)
 {
-    int sign = 1;
-    if (**str == '+' || **str == '-')
-    {
-        if (**str == '-')
-            sign = -1;
-        (*str)++;
-    }
-    return sign;
+	int	sign;
+
+	sign = 1;
+	if (**str == '+' || **str == '-')
+	{
+		if (**str == '-')
+			sign = -1;
+		(*str)++;
+	}
+	return (sign);
 }
 
-static unsigned long long parse_number(const char **str, int *overflow)
+static unsigned long long	parse_number(const char **str, int *overflow)
 {
-    unsigned long long tmp = 0;
-    *overflow = 0;
+	unsigned long long	tmp;
+	int					digit;
 
-    while (**str && ft_isdigit(**str))
-    {
-        int digit = **str - '0';
-        if (tmp > (ULLONG_MAX - digit) / 10)
-        {
-            *overflow = 1;
-            return tmp;
-        }
-        tmp = tmp * 10 + digit;
-        (*str)++;
-    }
-    return tmp;
+	tmp = 0;
+	*overflow = 0;
+	while (**str && ft_isdigit(**str))
+	{
+		digit = **str - '0';
+		if (tmp > (ULLONG_MAX - digit) / 10)
+		{
+			*overflow = 1;
+			return (tmp);
+		}
+		tmp = tmp * 10 + digit;
+		(*str)++;
+	}
+	return (tmp);
 }
 
-long long ft_atoll(const char *str)
+long long	ft_atoll(const char *str)
 {
-    long long result;
-    int sign;
-    int overflow;
-    unsigned long long tmp;
+	long long			result;
+	int					sign;
+	int					overflow;
+	unsigned long long	tmp;
 
-    str = skip_whitespace(str);
-    sign = get_sign(&str);
-    tmp = parse_number(&str, &overflow);
-
-    if (overflow)
-    {
-        if (sign == 1)
-            return LLONG_MAX;
-        else
-            return LLONG_MIN;
-    }
-
-    result = (long long)(tmp * sign);
-    return result;
+	str = skip_whitespace(str);
+	sign = get_sign(&str);
+	tmp = parse_number(&str, &overflow);
+	if (overflow)
+	{
+		if (sign == 1)
+			return (LLONG_MAX);
+		else
+			return (LLONG_MIN);
+	}
+	result = (long long)(tmp * sign);
+	return (result);
 }
