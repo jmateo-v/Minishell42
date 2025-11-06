@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/06 18:08:16 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 18:47:54 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@
 # define ERR_EMPTY_TOKEN "minishell: internal error: empty token\n"
 # define ERR_MISSING_REDIR_TARGET "minishell: syntax error: missing redir target for token "
 # define MAX_CMDS 64
+# define ERR_INVALID_ENV "minishell: env: failed to retrieve environment\n"
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
