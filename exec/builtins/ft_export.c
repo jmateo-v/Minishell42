@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 11:36:55 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/10/18 17:14:50 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 15:59:52 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ static void print_export(t_shenv *env)
 
     while (curr)
     {
-        ft_putstr_fd("declare -x ", 1);
-
+        ft_putstr_fd("export ", 1);
+        if (curr->var)
+        {
         eq = ft_strchr(curr->var, '=');
         if (eq)
         {
@@ -50,7 +51,7 @@ static void print_export(t_shenv *env)
         {
             ft_putstr_fd(curr->var, 1);
         }
-
+        }
         ft_putstr_fd("\n", 1);
         curr = curr->next;
     }

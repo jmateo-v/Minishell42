@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 17:08:00 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/19 10:30:56 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 11:50:20 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int handle_parent(pid_t pid, t_cli *cmd)
     {
         if (WTERMSIG(cmd->status) == SIGINT)
             write(STDOUT_FILENO, "\n", 1);
+        if (WTERMSIG(cmd->status) == SIGQUIT)
+            write(STDOUT_FILENO, "Quit (Core dumped)\n", 19);
         return (128 + WTERMSIG(cmd->status));
     }
     else if (WIFEXITED(cmd->status)) 

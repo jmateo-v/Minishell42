@@ -6,25 +6,25 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 16:52:27 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/02 19:04:27 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 16:03:10 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char *ft_getenv(t_shenv *env, const char *key)
+char *ft_getenv(t_shenv *env, const char *name)
 {
-    int len;
+    size_t len = ft_strlen(name);
 
-    len = ft_strlen(key);
     while (env)
     {
-        if (!ft_strncmp(env->var, key, len) && env->var[len] == '=')
-            return(env->var + len + 1);
+        if (env->var && ft_strncmp(env->var, name, len) == 0 && env->var[len] == '=')
+            return (env->var + len + 1);
         env = env->next;
     }
-    return NULL;
+    return (NULL);
 }
+
 int ft_setenv(t_shenv **env, const char *key, const char *value)
 {
     t_shenv *node;
@@ -41,16 +41,17 @@ int ft_setenv(t_shenv **env, const char *key, const char *value)
     ft_strcpy(new_var, key);
     new_var[key_len] = '=';
     ft_strcpy(new_var + key_len + 1, value);
-    while(node)
+    while (node)
     {
-        if(!ft_strncmp(node->var, key, key_len) && node->var[key_len] == '=')
-        {
-            free (node->var);
-            node->var = new_var;
-            return (0);
-        }
-        node = node->next;
+    if (node->var && !ft_strncmp(node->var, key, key_len) && node->var[key_len] == '=')
+    {
+        free(node->var);
+        node->var = new_var;
+        return (0);
     }
+    node = node->next;
+    }
+
     new_node = ft_calloc(1, sizeof(t_shenv));
     if (!new_node)
         return (free(new_var), perror("malloc"), 1);

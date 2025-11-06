@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:23:56 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/04 22:57:19 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 12:48:17 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char *ft_read_input(void)
         rl_outstream = stderr;
         cl = readline("\033[1;38;5;117mminishell\033[0m$ ");
 
-        if (!cl || cl[0] == '\0')
+        if (!cl)
         {
             free(cl);
             return NULL;
@@ -82,7 +82,6 @@ int shell_loop(t_cli *cli)
         }
         if (cl[0] == '\0')
         {
-            free(cl);
             continue;
         }
         add_history(cl);

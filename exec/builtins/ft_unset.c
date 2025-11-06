@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 10:54:04 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/10/18 17:14:56 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 16:10:35 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ int ft_unsetenv(t_shenv **env, const char *key)
     curr = *env;
     prev = NULL;
     len = ft_strlen(key);
+
     while (curr)
     {
-        if(!ft_strncmp(curr->var, key, len) && curr->var[len] == '=')
+        if (curr->var && !ft_strncmp(curr->var, key, len) && curr->var[len] == '=')
         {
             if (prev)
                 prev->next = curr->next;
             else
                 *env = curr->next;
+
             free(curr->var);
             free(curr);
             return (0);
@@ -38,6 +40,7 @@ int ft_unsetenv(t_shenv **env, const char *key)
     }
     return (1);
 }
+
 int ft_unset(char **args, t_shenv **env)
 {
     int i;

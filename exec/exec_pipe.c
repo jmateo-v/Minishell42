@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 10:21:28 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/19 15:34:20 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 12:17:37 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,7 @@ void exec_command(t_cli *cmd)
         ft_free_str_array(&env);
         exit(status);
     }
-    if (cmd->args[0] && strcmp(cmd->args[0], ".") == 0)
-    {
-        fprintf(stderr, "minishell: .: Not supported\n");
-        exit(127);
-    }
-    if (is_directory(cmd->cmd))
-    {
-        write(STDERR_FILENO, "minishell: .: is a directory\n", 29);
-        exit(126);
-    }
+    check_command_errors(cmd);
     execve(cmd->cmd, cmd->args, env);
     perror("execve");
     ft_free_str_array(&env);
@@ -140,8 +131,12 @@ int wait_for_children(pid_t last_pid, pid_t *child_pids, int child_count)
         return WEXITSTATUS(last_status);
     else if (WIFSIGNALED(last_status))
     {
-        printf ("\n");
-        return (128 + WTERMSIG(last_status));
+    int sig = WTERMSIG(last_status);
+    if (sig == SIGQUIT)
+        write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+    else if (sig == SIGINT)
+        write(STDOUT_FILENO, "\n", 1);
+    return (128 + sig);
     }
     return (1);
 }

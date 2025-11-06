@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:17:53 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/02 19:25:18 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 12:27:00 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int new_ft_check_errors(t_token *tokens, int n_tokens)
                 return (ft_perror("|", PIPE_ERR), 1);
             if (i == n_tokens - 1)
                 return (ft_perror("|", PIPE_ERR), 1);
+            if (i + 1 >= n_tokens || tokens[i + 1].token_type != T_WORD)
+                return (ft_perror(tokens[i].value, PIPE_ERR), 1);
         }
         i++;
     }
