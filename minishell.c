@@ -17,14 +17,12 @@ int	main(int argc, char **argv, char **envp)
 	t_shenv		*env;
 	t_cli		*cli;
 	int			status;
-	
+
 	(void)argc;
 	(void)argv;
-	
 	cli = ft_setup_shell(envp, &env);
 	if (!cli)
 		return (ft_free_env(&env), 2);
-	//check_echoctl();
 	status = shell_loop(cli);
 	ft_cleanup_shell(&cli, &env);
 	return (status);
