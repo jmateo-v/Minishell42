@@ -6,11 +6,32 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:26:11 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/02 23:01:44 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 17:42:38 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_free_cli_fields(t_cli *cli)
+{
+	if (!cli)
+		return ;
+	if (cli->cmd)
+		free(cli->cmd);
+	cli->cmd = NULL;
+	if (cli->heredoc)
+		free(cli->heredoc);
+	cli->heredoc = NULL;
+	if (cli->infile)
+		free(cli->infile);
+	cli->infile = NULL;
+	if (cli->outfile)
+		free(cli->outfile);
+	cli->outfile = NULL;
+	if (cli->args)
+		ft_free_str_array(&cli->args);
+	cli->args = NULL;
+}
 
 void	ft_reset_list(t_cli *cli)
 {
@@ -24,34 +45,24 @@ void	ft_reset_list(t_cli *cli)
 		ft_free_list(&next);
 		cli->next = NULL;
 	}
-	free(cli->cmd);
-	cli->cmd = NULL;
-	free(cli->heredoc);
-	cli->heredoc = NULL;
-	free(cli->infile);
-	cli->infile = NULL;
-	free(cli->outfile);
-	cli->outfile = NULL;
-	if (cli -> args)
-	{
-		ft_free_str_array(&cli->args);
-		cli->args = NULL;
-	}
+	ft_free_cli_fields(cli);
 	cli->is_builtin = 0;
 	cli->r_mode = 0;
 	cli->group = 0;
 	cli->op = 0;
 }
-t_cli *ft_setup_shell(char **envp, t_shenv **env)
+
+t_cli	*ft_setup_shell(char **envp, t_shenv **env)
 {
-    rl_catch_signals = 0;
-    ft_set_sig(PARENT);
+	rl_catch_signals = 0;
+	ft_set_sig(PARENT);
 	enable_echoctl();
-    *env = ft_load_env(envp);
-    return ft_init_node(1, env, 0);
+	*env = ft_load_env(envp);
+	return (ft_init_node(1, env, 0));
 }
-void ft_cleanup_shell(t_cli **cli, t_shenv **env)
+
+void	ft_cleanup_shell(t_cli **cli, t_shenv **env)
 {
-    ft_free_list(cli);
-    ft_free_env(env);
+	ft_free_list(cli);
+	ft_free_env(env);
 }

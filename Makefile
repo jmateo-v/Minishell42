@@ -45,9 +45,9 @@ SRC = minishell.c\
     exec/builtins/ft_unset.c\
     exec/exec_heredoc.c\
     exec/exec_utils.c\
-    utils/temp.c\
     utils/utils.c\
     utils/utils1.c\
+    utils/utils2.c\
 	wildcard_bonus.c
 
 OBJ = $(SRC:.c=.o)
