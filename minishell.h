@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/02 22:56:45 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 18:08:16 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,4 +199,10 @@ int new_ft_check_errors(t_token *tokens, int n_tokens);
 void check_echoctl(void);
 void enable_echoctl(void);
 int ft_sig_hook(void);
+char *ft_read_with_hook(char *cl);
+int  ft_check_signal(t_cli *cli);
+int  ft_check_eof(char *cl);
+void ft_handle_command(char *cl, t_cli *cli);
+char *ft_read_input(void);
+int ft_process_command(char *cl, t_cli *cli);
 #endif

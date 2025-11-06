@@ -48,6 +48,7 @@ SRC = minishell.c\
     utils/utils.c\
     utils/utils1.c\
     utils/utils2.c\
+    utils/loop_utils.c\
 	wildcard_bonus.c
 
 OBJ = $(SRC:.c=.o)
