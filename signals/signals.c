@@ -6,56 +6,87 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:30:15 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/18 15:30:17 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 11:46:54 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+volatile sig_atomic_t	g_sig_rec = 0;
 
-void    ft_sig_int_parent(int signal)
+int ft_sig_hook(void)
 {
-	char nl;
-
-	nl = '\n';
-    g_sig_rec = 1;
-	if (signal == SIGINT)
-	{
-        write(1, "^C", 2);
-        ioctl(STDIN_FILENO, TIOCSTI, &nl);
+    if (g_sig_rec)
+    {
+        rl_done = 1;
     }
+    return 0;
 }
 
-
-void    ft_set_sig(int option)
+void enable_echoctl(void)
 {
-    struct sigaction        sa;
+    struct termios term;
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag |= ECHOCTL;
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+void check_echoctl(void)
+{
+    struct termios term;
+    tcgetattr(STDIN_FILENO, &term);
+    if (term.c_lflag & ECHOCTL)
+        printf("ECHOCTL is enabled\n");
+    else
+        printf("ECHOCTL is disabled\n");
+}
 
-    ft_memset(&sa, 0, sizeof(sa));
+void ft_sig_int_parent(int sig)
+{
+    (void)sig;
+    g_sig_rec = 1;
+    write(STDOUT_FILENO, "^C", 2);
+}
+
+void ft_set_sig(int option)
+{
+    struct sigaction sa_int;
+    struct sigaction sa_quit;
+
+    ft_memset(&sa_int, 0, sizeof(sa_int));
+    ft_memset(&sa_quit, 0, sizeof(sa_quit));
+
     if (option == PARENT)
     {
-        sa.sa_handler = ft_sig_int_parent;
-        sigaction(SIGINT, &sa, NULL);
-		sa.sa_handler = SIG_IGN;
-        sigaction(SIGQUIT, &sa, NULL);
+    sigemptyset(&sa_int.sa_mask);
+    sa_int.sa_handler = ft_sig_int_parent;
+    sa_int.sa_flags = 0;
+    sigaction(SIGINT, &sa_int, NULL);
+
+    sigemptyset(&sa_quit.sa_mask);
+    sa_quit.sa_handler = SIG_IGN;
+    sa_quit.sa_flags = 0;
+    sigaction(SIGQUIT, &sa_quit, NULL);
     }
-    if (option == CHILD)
+
+    else if (option == CHILD)
     {
-        sa.sa_handler = SIG_DFL;
-        sigaction(SIGINT, &sa, NULL);
-        sigaction(SIGQUIT, &sa, NULL);
-	}
-    if (option == IGNORE)
-    {
-        sa.sa_handler = SIG_IGN;
-        sigaction(SIGINT, &sa, NULL);
-        sigaction(SIGQUIT, &sa, NULL);
+        sa_int.sa_handler = SIG_DFL;
+        sigaction(SIGINT, &sa_int, NULL);
+        sigaction(SIGQUIT, &sa_int, NULL);
     }
-	return ;
+    else if (option == IGNORE)
+    {
+        sa_int.sa_handler = SIG_IGN;
+        sigaction(SIGINT, &sa_int, NULL);
+        sigaction(SIGQUIT, &sa_int, NULL);
+    }
 }
-int	ft_reset_signal(t_cli *cli)
+
+int ft_reset_signal(t_cli *cli)
 {
-	g_sig_rec = 0;
-	ft_reset_list(cli);
-	cli->last_status = 130;
-	return (1);
+    g_sig_rec = 0;
+    ft_reset_list(cli);
+    cli->last_status = 130;
+    
+    return 1;
 }
+

@@ -6,13 +6,13 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/24 11:20:19 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/02 22:56:45 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
+# define _GNU_SOURCE
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -31,6 +31,7 @@
 # include <sys/ioctl.h>
 # include <stdbool.h>
 # include <errno.h>
+# include <termios.h>
 
 # define HERE_PIPE 3
 # define HERE_DOC 2
@@ -195,4 +196,7 @@ void check_command_errors(t_cli *cmd);
 int ft_prepare_heredoc_fd(t_cli *cli);
 int ft_prepare_all_heredocs(t_cli *cli);
 int new_ft_check_errors(t_token *tokens, int n_tokens);
+void check_echoctl(void);
+void enable_echoctl(void);
+int ft_sig_hook(void);
 #endif

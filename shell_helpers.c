@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   old_minishell.c                                    :+:      :+:    :+:   */
+/*   shell_helpers.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:26:11 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/18 15:26:17 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/02 23:01:44 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile sig_atomic_t	g_sig_rec = 0;
 
 void	ft_reset_list(t_cli *cli)
 {
@@ -48,6 +46,7 @@ t_cli *ft_setup_shell(char **envp, t_shenv **env)
 {
     rl_catch_signals = 0;
     ft_set_sig(PARENT);
+	enable_echoctl();
     *env = ft_load_env(envp);
     return ft_init_node(1, env, 0);
 }

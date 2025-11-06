@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:11:57 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/30 17:01:35 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/04 22:01:52 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_token *ft_expand_tokens(t_token *tokens, int *len, t_cli *cli)
             {
                 expanded = ft_strdup(seg->value);
             }
-            else if (seg->type == QUOTE_LITERAL_DOLLAR)
+            else if (seg->type == QUOTE_LITERAL)
             {
                 expanded = ft_strdup(seg->value);
             }

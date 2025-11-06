@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:46:30 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/21 16:26:06 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 13:11:28 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*ft_cmd_path(char *env_path, char *cmd)
 	i = 0;
 	path = ft_split(env_path, ':');
 	if (!path)
-		return (perror("malloc"), NULL);
+		return (NULL);
 	while (path[i])
 	{
 		t = ft_strjoin(path[i], "/");
