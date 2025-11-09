@@ -3,7 +3,12 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
-BONUS_OBJS = wildcard_bonus.o exec/ft_execute_bonus.o
+BONUS_OBJS = wildcard_bonus.o\
+             exec/ft_execute_bonus.o\
+             tokenizing/token_error_bonus.o\
+			 exec/ft_execute.o\
+			 parsing/parsing_bonus.o
+
 BONUS_BINS = minishell_bonus
 
 GNL_DIR = get_next_line
@@ -52,7 +57,7 @@ SRC = minishell.c\
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS += -g -I$(LIBFT_DIR) -Iinclude $(GNL_HEADER) -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS += -g -I$(LIBFT_DIR) -Iinclude $(GNL_HEADER) -Wall -Wextra -Werror -fsanitize=address
 
 all: $(NAME)
 
@@ -86,7 +91,7 @@ wildcard_bonus.o: wildcard_bonus.c
 	cc $(CFLAGS) -c wildcard_bonus.c -o wildcard_bonus.o
 
 clean:
-	rm -f $(OBJ) $(BONUS_OBJS) exec/ft_execute.o
+	rm -f $(OBJ) $(BONUS_OBJS)
 	$(MAKE) clean -C $(LIBFT_DIR)
 	$(MAKE) clean -C $(GNL_DIR)
 

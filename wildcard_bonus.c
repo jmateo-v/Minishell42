@@ -5,11 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int	match_pattern(const char *pattern, const char *str)
-{
-	const char	*p = pattern;
-	const char	*s = str;
+static int	match_pattern(const char *pattern, const char *str);
 
+int	match_pattern_inner_loop(const char *s, const char *p)
+{
 	while (*p && *s)
 	{
 		if (*p == '*')
@@ -30,10 +29,22 @@ static int	match_pattern(const char *pattern, const char *str)
 			s++;
 		}
 		else
-		{
 			return (0);
-		}
 	}
+	return (-1);
+}
+
+static int	match_pattern(const char *pattern, const char *str)
+{
+	int			ret;
+	const char	*p;
+	const char	*s;
+
+	p = pattern;
+	s = str;
+	ret = match_pattern_inner_loop(s, p);
+	if (ret != -1)
+		return (ret);
 	while (*p == '*')
 		p++;
 	return (!*p && !*s);
@@ -49,13 +60,51 @@ static	size_t	count_matches(const char *pattern)
 	dir = opendir(".");
 	if (!dir)
 		return (0);
-	while ((entry = readdir(dir)))
+	entry = readdir(dir);
+	while (entry != NULL)
 	{
 		if (match_pattern(pattern, entry->d_name))
 			count++;
+		entry = readdir(dir);
 	}
 	closedir(dir);
 	return (count);
+}
+
+size_t	expand_wildcards_inner_loop(struct dirent *entry, DIR *dir,
+		const char *pattern, char **matches)
+{
+	size_t			k;
+	size_t			ret;
+
+	ret = 0;
+	while (entry != NULL)
+	{
+		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+		{
+			entry = readdir(dir);
+			continue ;
+		}
+		if (match_pattern(pattern, entry->d_name))
+		{
+			matches[ret] = strdup(entry->d_name);
+			if (!matches[ret])
+			{
+				k = 0;
+				while (k < ret)
+				{
+					free(matches[k]);
+					k++;
+				}
+				free(matches);
+				closedir(dir);
+				return (0);
+			}
+			ret++;
+		}
+		entry = readdir(dir);
+	}
+	return (ret);
 }
 
 char	**expand_wildcards(const char *pattern)
@@ -76,26 +125,13 @@ char	**expand_wildcards(const char *pattern)
 		closedir(dir);
 		return (NULL);
 	}
-	i = 0;
-	while ((entry = readdir(dir)))
+	entry = readdir(dir);
+	i = expand_wildcards_inner_loop(entry, dir, pattern, matches);
+	if (i == 0)
 	{
-		if (strcmp(entry->d_name, ".") == 0
-			|| strcmp(entry->d_name, "..") == 0)
-			continue ;
-		if (match_pattern(pattern, entry->d_name))
-		{
-			matches[i] = strdup(entry->d_name);
-			if (!matches[i])
-			{
-				size_t k;
-				for (k = 0; k < i; k++)
-					free(matches[k]);
-				free(matches);
-				closedir(dir);
-				return (NULL);
-			}
-			i++;
-		}
+		free(matches);
+		closedir(dir);
+		return (NULL);
 	}
 	matches[i] = NULL;
 	closedir(dir);
@@ -117,52 +153,74 @@ void	free_wildcard_matches(char **matches)
 	free(matches);
 }
 
-static char **expand_args(char **args)
+static char	**expand_args(char **args)
 {
-	int i;
-	int j;
-	int count;
-	char **expanded;
-	char **matches;
+	int		i;
+	int		j;
+	int		count;
+	char	**expanded;
+	char	**matches;
 
 	if (!args)
 		return (NULL);
 	count = 0;
-	for (i = 0; args[i]; i++)
+	i = 0;
+	while (args[i])
 	{
 		if (strchr(args[i], '*'))
 		{
 			matches = expand_wildcards(args[i]);
-			for (j = 0; matches && matches[j]; j++)
+			if (matches)
+			{
+				j = 0;
+				while (matches[j])
+				{
+					count++;
+					j++;
+				}
+				free_wildcard_matches(matches);
+			}
+			else
 				count++;
-			free_wildcard_matches(matches);
 		}
 		else
 			count++;
+		i++;
 	}
 	expanded = malloc(sizeof(char *) * (count + 1));
 	if (!expanded)
 		return (NULL);
 	count = 0;
-	for (i = 0; args[i]; i++)
+	i = 0;
+	while (args[i])
 	{
 		if (strchr(args[i], '*'))
 		{
 			matches = expand_wildcards(args[i]);
-			for (j = 0; matches && matches[j]; j++)
-				expanded[count++] = strdup(matches[j]);
-			free_wildcard_matches(matches);
+			if (matches)
+			{
+				j = 0;
+				while (matches[j])
+				{
+					expanded[count++] = strdup(matches[j]);
+					j++;
+				}
+				free_wildcard_matches(matches);
+			}
+			else
+				expanded[count++] = strdup(args[i]);
 		}
 		else
 			expanded[count++] = strdup(args[i]);
+		i++;
 	}
 	expanded[count] = NULL;
 	return (expanded);
 }
 
-void expand_cli_args_wildcard(t_cli *cli)
+void	expand_cli_args_wildcard(t_cli *cli)
 {
-	char **expanded;
+	char	**expanded;
 
 	if (!cli || !cli->args)
 		return ;
