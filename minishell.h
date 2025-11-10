@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/06 18:47:54 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/10 17:06:27 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,4 +206,5 @@ int  ft_check_eof(char *cl);
 void ft_handle_command(char *cl, t_cli *cli);
 char *ft_read_input(void);
 int ft_process_command(char *cl, t_cli *cli);
+void ft_sig_int_parent(int sig);
 #endif

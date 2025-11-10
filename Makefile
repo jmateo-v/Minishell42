@@ -33,6 +33,7 @@ SRC = minishell.c\
     parsing/parse_pipe.c\
     parsing/parse_utils.c\
     signals/signals.c\
+    signals/sig_manager.c\
     exec/exec_command.c\
     exec/exec_builtin.c\
     exec/exec_pipe.c\
