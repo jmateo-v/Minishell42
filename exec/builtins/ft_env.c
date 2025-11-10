@@ -12,18 +12,18 @@
 
 #include "../../minishell.h"
 
-int ft_env(char **env)
+int	ft_env(char **env)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (!env)
-        return (1);
-    while(env[i])
-    {
-        printf("%s\n", env[i]);
-        i++;
-    }
-    ft_free_str_array(&env);
-    return (0);
+	i = 0;
+	if (!env)
+		return (1);
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+	ft_free_str_array(&env);
+	return (0);
 }

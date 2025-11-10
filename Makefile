@@ -44,6 +44,7 @@ SRC = minishell.c\
     exec/builtins/ft_export.c\
     exec/builtins/ft_pwd.c\
     exec/builtins/ft_unset.c\
+    exec/builtins/builtin_utils.c\
     exec/exec_heredoc.c\
     exec/exec_utils.c\
     utils/utils.c\

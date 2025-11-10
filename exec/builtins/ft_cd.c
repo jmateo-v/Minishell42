@@ -6,93 +6,62 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 16:52:27 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/06 16:03:10 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/10 18:04:00 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char *ft_getenv(t_shenv *env, const char *name)
+static int	check_cd_args(char **args)
 {
-    size_t len = ft_strlen(name);
-
-    while (env)
-    {
-        if (env->var && ft_strncmp(env->var, name, len) == 0 && env->var[len] == '=')
-            return (env->var + len + 1);
-        env = env->next;
-    }
-    return (NULL);
+	if (args[1] && args[2])
+	{
+		ft_putstr_fd("cd: too many arguments\n", 2);
+		return (1);
+	}
+	return (0);
 }
 
-int ft_setenv(t_shenv **env, const char *key, const char *value)
+static char	*resolve_cd_target(char **args, t_shenv *env)
 {
-    t_shenv *node;
-    char *new_var;
-    int key_len;
-    t_shenv *new_node;
-
-    node = *env;
-    new_node = NULL;
-    key_len = ft_strlen(key);
-    new_var = malloc(key_len + ft_strlen(value) + 2);
-    if (!new_var)
-        return(perror("malloc"), 1);
-    ft_strcpy(new_var, key);
-    new_var[key_len] = '=';
-    ft_strcpy(new_var + key_len + 1, value);
-    while (node)
-    {
-    if (node->var && !ft_strncmp(node->var, key, key_len) && node->var[key_len] == '=')
-    {
-        free(node->var);
-        node->var = new_var;
-        return (0);
-    }
-    node = node->next;
-    }
-
-    new_node = ft_calloc(1, sizeof(t_shenv));
-    if (!new_node)
-        return (free(new_var), perror("malloc"), 1);
-    new_node->var = new_var;
-    new_node->next = *env;
-    *env = new_node;
-    return (0);
+	if (!args[1] || !args[1][0])
+		return (ft_getenv(env, "HOME"));
+	if (ft_strcmp(args[1], "-") == 0)
+		return (ft_getenv(env, "OLDPWD"));
+	return (args[1]);
 }
 
-int ft_cd(char **args, t_shenv **env)
+static void	update_cd_env(t_shenv **env, char *old_pwd)
 {
-    char cwd[PATH_MAX];
-    char *target;
+	char	cwd[PATH_MAX];
 
-    target = NULL;
-    if (args[1] && args[2])
-    {
-        ft_putstr_fd("cd: too many arguments\n", 2);
-        return (1);
-    }
-    if (!getcwd(cwd, sizeof(cwd)))
-        return(perror("cd: getcwd"), 1);
-    if (!args[1] || !args[1][0])
-        target = ft_getenv(*env, "HOME");
-    else if (ft_strcmp(args[1], "-") == 0)
-        target = ft_getenv(*env, "OLDPWD");
-    else
-        target = args[1];
-    
-    if (!target)
-    {
-        ft_putstr_fd("cd: target not found\n", 2);
-        return(1);
-    }
-    if (chdir(target) != 0)
-    {
-        perror("cd");
-        return (1);
-    }
-    ft_setenv(env, "OLDPWD", cwd);
-    if (getcwd(cwd, sizeof(cwd)))
-        ft_setenv(env, "PWD", cwd);
-    return (0);
+	ft_setenv(env, "OLDPWD", old_pwd);
+	if (getcwd(cwd, sizeof(cwd)))
+		ft_setenv(env, "PWD", cwd);
+}
+
+int	ft_cd(char **args, t_shenv **env)
+{
+	char	cwd[PATH_MAX];
+	char	*target;
+
+	if (check_cd_args(args))
+		return (1);
+	if (!getcwd(cwd, sizeof(cwd)))
+		return (perror("cd: getcwd"), 1);
+	target = resolve_cd_target(args, *env);
+	if (!target)
+	{
+		ft_putstr_fd("cd: target not found\n", 2);
+		return (1);
+	}
+	if (args[1] && ft_strcmp(args[1], "-") == 0)
+		ft_putendl_fd(target, 1);
+	if (chdir(target) != 0)
+	{
+		perror("cd");
+		return (1);
+	}
+	update_cd_env(env, cwd);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/10 17:06:27 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/10 17:54:25 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char	*ft_escape_quotes(char *line);
 char	*ft_trim_delim(char *token, int *option);
 char	*ft_expand_heredoc(int option, t_cli *cli);
 char    *ft_cmd_path(char *env_path, char *cmd);
-char 	*ft_getenv(t_shenv *env, const char *key);
+char 	*ft_getenv(t_shenv *env, char *key);
 char	*ft_expand_exit_status(int status, char *line, int i);
 char	**lex_line(const char *line);
 int		ft_parse_token(t_token *token, int i, t_cli *cli, int *group);
@@ -142,7 +142,7 @@ int 	ft_echo(char **args);
 int 	ft_env(char **env);
 int 	ft_exit(char **args, int last_status);
 int 	ft_cd(char **args, t_shenv **env);
-int		ft_setenv(t_shenv **env, const char *key, const char *value);
+int		ft_setenv(t_shenv **env, char *key, char *value);
 int 	execute_command(t_cli *cli);
 int 	execute_builtin(t_cli *cmd);
 int 	ft_execute(t_cli *cli);
