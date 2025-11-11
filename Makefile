@@ -36,7 +36,11 @@ SRC = minishell.c\
     signals/sig_manager.c\
     exec/exec_command.c\
     exec/exec_builtin.c\
-    exec/exec_pipe.c\
+    exec/exec_pipe/exec_pipe.c\
+    exec/exec_pipe/setup_child.c\
+    exec/exec_pipe/pipe_command.c\
+    exec/exec_pipe/wait_children.c\
+    exec/exec_pipe/run_pipe_loop.c\
     exec/builtins/ft_cd.c\
     exec/builtins/ft_echo.c\
     exec/builtins/ft_env.c\

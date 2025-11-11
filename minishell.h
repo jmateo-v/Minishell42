@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/10 17:54:25 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/11 19:15:46 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,12 @@ typedef struct s_cli
 	bool			breaks_pipe;
 	struct s_cli	*next;
 }	t_cli;
+typedef struct s_pipe_state 
+{
+    int     p[2];
+    int     prev;
+    int     i;
+}   t_pipe_state;
 
 bool 	has_pipes_or_redirs(t_cli *cli);
 char	**ft_expand_wildcard(char **token, int pos, int *wc_len);
@@ -207,4 +213,9 @@ void ft_handle_command(char *cl, t_cli *cli);
 char *ft_read_input(void);
 int ft_process_command(char *cl, t_cli *cli);
 void ft_sig_int_parent(int sig);
+void    setup_child(t_cli *cmd, int prev_pipe, int *pipe_fd);
+void exit_perror(const char *msg);
+void pipe_command(t_cli *cmd);
+int wait_for_children(pid_t last_pid, pid_t *child_pids, int child_count);
+int	run_pipeline_loop(t_cli *cli, pid_t *pids, pid_t *last_pid);
 #endif
