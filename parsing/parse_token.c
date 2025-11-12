@@ -25,13 +25,9 @@ int	ft_parse_token(t_token *token, int i, t_cli *cli, int *group)
 	{
 		ft_cmd(token[i].value, cli);
 		ft_args(token[i].value, cli, ft_ptr_array_len((void **)cli->args));
-
 		cli->group = *group;
 	}
 	else
-	{
 		ft_args(token[i].value, cli, ft_ptr_array_len((void **)cli->args));
-	}
-
 	return (i);
 }
