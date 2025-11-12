@@ -16,17 +16,15 @@
 int	ft_execute(t_cli *cli)
 {
 	int	last_status;
-    last_status = 0;
-    if (!cli || !cli->cmd)
-        return (127);
-    if (has_pipes_or_redirs(cli))
-        last_status = execute_pipeline(cli);
-    else if (cli->is_builtin)
-        last_status = execute_builtin(cli);
-    else
-        last_status = execute_command(cli);
-    return (last_status);
+
+	last_status = 0;
+	if (!cli || !cli->cmd)
+		return (127);
+	if (has_pipes_or_redirs(cli))
+		last_status = execute_pipeline(cli);
+	else if (cli->is_builtin)
+		last_status = execute_builtin(cli);
+	else
+		last_status = execute_command(cli);
+	return (last_status);
 }
-
-
-
