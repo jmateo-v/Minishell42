@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_cli_fill_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dansanc3          #+#    #+#             */
-/*   Updated: 2025/11/15 02:43:11 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/15 16:27:58 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

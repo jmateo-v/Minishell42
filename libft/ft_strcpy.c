@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 10:06:22 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/15 12:43:45 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:06:20 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcpy(char *dest, const char *src)
 char	*ft_strcpy(char *dest, const char *src)
 {
 	size_t	i;
@@ -28,4 +27,3 @@ char	*ft_strcpy(char *dest, const char *src)
 	dest[i] = '\0';
 	return (dest);
 }
-

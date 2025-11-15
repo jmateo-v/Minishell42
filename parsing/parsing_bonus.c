@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dansanc3          #+#    #+#             */
-/*   Updated: 2025/11/15 12:10:48 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/15 16:56:17 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	evaluate_ret(int ret)
 	return (0);
 }
 
-static int	process_pipe_token(t_parse_ctx *ctx, int index, t_cli **cli)
+static int	process_pipe_token(t_b_parse_ctx *ctx, int index, t_cli **cli)
 {
 	if (!ctx->tokens[index].value
 		|| !is_pipe(ctx->tokens[index].value))
@@ -32,7 +32,7 @@ static int	process_pipe_token(t_parse_ctx *ctx, int index, t_cli **cli)
 	return (1);
 }
 
-static int	process_token(t_parse_ctx *ctx, t_cli **cli, int *i, int *group)
+static int	process_token(t_b_parse_ctx *ctx, t_cli **cli, int *i, int *group)
 {
 	int	ret;
 
@@ -58,12 +58,13 @@ static int	process_token(t_parse_ctx *ctx, t_cli **cli, int *i, int *group)
 	return (0);
 }
 
-static int	iterate_tokens(t_parse_ctx *ctx, t_cli *cli)
+static int	iterate_tokens(t_b_parse_ctx *ctx, t_cli *cli)
 {
 	int		ret;
 	int		i;
 	int		group;
 	t_cli	*current;
+	int		flag  = 0;
 
 	i = 0;
 	group = 1;
@@ -75,16 +76,32 @@ static int	iterate_tokens(t_parse_ctx *ctx, t_cli *cli)
 			i++;
 			continue ;
 		}
+		if (ctx->tokens[i].seg_type == 0 && ft_strcmp(ctx->tokens[i].value, "*") == 0)
+		{
+			flag = 1;
+		}
 		ret = process_token(ctx, &current, &i, &group);
 		if (ret)
 			return (ret);
 	}
+	if (flag)
+	{
+	t_cli	*start;
+	t_cli	*end;
+	t_cli	*next;
+	
+	start = cli;
+	end = find_group_end(start, 1);
+	next = end->next;
+	expand_group_args(start, end);
+	}
+
 	return (0);
 }
 
 int	ft_parse(t_token *tokens, t_cli *cli)
 {
-	t_parse_ctx	ctx;
+	t_b_parse_ctx	ctx;
 
 	if (!tokens || !cli)
 		return (2);

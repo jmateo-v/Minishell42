@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/15 12:43:01 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:20:19 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,12 +134,6 @@ typedef struct s_shenv
 	struct s_shenv	*next;
 }	t_shenv;
 
-typedef struct s_parse_ctx
-{
-	t_token	*tokens;
-	int		len;
-}			t_parse_ctx;
-
 typedef struct s_heredoc
 {
 	char	*delimiter;
@@ -262,7 +256,6 @@ void	ft_reset_list(t_cli *cli);
 t_cli	*ft_init_node(int len, t_shenv **envp, int op);
 t_cli	*ft_parse_pipe(char *token, t_cli *cli);
 t_shenv	*ft_load_env(char **envp);
-void	ft_print_list(t_cli *cli);
 char	*ft_trim_spaces(char *line);
 void	print_tokens(t_token *tokens);
 int		ft_token_count(t_token *tokens);

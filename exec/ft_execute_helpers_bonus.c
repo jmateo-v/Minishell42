@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_helpers_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:37:18 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/11/15 12:23:26 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/15 16:41:28 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "minishell_bonus.h"
 
-static t_cli	*find_group_end(t_cli *node, int level)
+t_cli	*find_group_end(t_cli *node, int level)
 {
 	t_cli	*end;
 
@@ -23,7 +23,7 @@ static t_cli	*find_group_end(t_cli *node, int level)
 	return (end);
 }
 
-static void	expand_group_args(t_cli *start, t_cli *end)
+void	expand_group_args(t_cli *start, t_cli *end)
 {
 	t_cli	*node;
 
@@ -64,7 +64,7 @@ int	run_pipeline_group(t_cli **cursor, int depth, int *last_op)
 	start = *cursor;
 	end = find_group_end(start, depth);
 	next = end->next;
-	expand_group_args(start, end);
+	//expand_group_args(start, end);
 	if (!start->cmd)
 	{
 		*cursor = next;
