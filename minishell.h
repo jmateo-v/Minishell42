@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/15 00:02:18 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/15 12:43:01 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,12 @@ typedef struct s_shenv
 	char			*var;
 	struct s_shenv	*next;
 }	t_shenv;
+
+typedef struct s_parse_ctx
+{
+	t_token	*tokens;
+	int		len;
+}			t_parse_ctx;
 
 typedef struct s_heredoc
 {

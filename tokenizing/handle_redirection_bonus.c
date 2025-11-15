@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*   handle_redirection_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/19 10:06:22 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/15 12:43:45 by dansanc3         ###   ########.fr       */
+/*   Created: 2025/10/18 15:29:38 by dansanc3          #+#    #+#             */
+/*   Updated: 2025/11/15 12:35:02 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
+#include "minishell_bonus.h"
 
-char	*ft_strcpy(char *dest, const char *src)
-char	*ft_strcpy(char *dest, const char *src)
+int	handle_redirection(char *curr, char *next)
 {
-	size_t	i;
-
-	i = 0;
-	if (!dest || !src)
-		return (NULL);
-	while (src[i])
+	if (!ft_strchr("<>", curr[0]))
+		return (0);
+	if (!next || next[0] == '\0')
 	{
-		dest[i] = src[i];
-		i++;
+		ft_perror(curr, SYN_ERR);
+		return (1);
 	}
-	dest[i] = '\0';
-	return (dest);
+	if (ft_strchr("|&", next[0]))
+	{
+		ft_perror(curr, SYN_ERR);
+		return (1);
+	}
+	return (0);
 }
-
