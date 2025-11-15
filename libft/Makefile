@@ -40,7 +40,8 @@ ft_strrchr.c\
 ft_strtrim.c\
 ft_substr.c\
 ft_tolower.c\
-ft_toupper.c
+ft_toupper.c\
+ft_realloc.c
 OBJ = $(SRC:.c=.o)
 INCLUDE = ftlib.h
 AR = ar rcs

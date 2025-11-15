@@ -6,32 +6,44 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 17:54:54 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/11 18:26:28 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/14 17:22:40 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+static void	setup_heredoc_input(t_cli *cmd)
+{
+	int	hfd;
+
+	hfd = cmd->heredocs[cmd->num_heredocs - 1].fd;
+	if (hfd >= 0)
+	{
+		if (dup2(hfd, STDIN_FILENO) == -1)
+			exit_perror("heredoc dup2");
+		close(hfd);
+	}
+}
+
 static void	setup_input(t_cli *cmd, int prev_pipe)
 {
 	int	fd;
 
-	if (cmd->heredoc_fd != -1)
-	{
-		dup2(cmd->heredoc_fd, STDIN_FILENO);
-		close(cmd->heredoc_fd);
-	}
+	if (cmd->num_heredocs > 0)
+		setup_heredoc_input(cmd);
 	else if (cmd->infile)
 	{
 		fd = open(cmd->infile, O_RDONLY);
 		if (fd < 0)
 			exit_perror(cmd->infile);
-		dup2(fd, STDIN_FILENO);
+		if (dup2(fd, STDIN_FILENO) == -1)
+			exit_perror("dup2 infile");
 		close(fd);
 	}
 	else if (prev_pipe != -1)
 	{
-		dup2(prev_pipe, STDIN_FILENO);
+		if (dup2(prev_pipe, STDIN_FILENO) == -1)
+			exit_perror("dup2 prev_pipe");
 		close(prev_pipe);
 	}
 }

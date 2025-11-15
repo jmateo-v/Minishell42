@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 17:08:00 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/06 11:50:20 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/14 16:34:25 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,14 @@ void	run_execve(t_cli *cmd, char **env)
 void	handle_child(t_cli *cmd)
 {
 	char	**env;
+	int		fd;
 
+	if (cmd->num_heredocs > 0)
+	{
+		fd = cmd->heredocs[cmd->num_heredocs - 1].fd;
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
 	ft_set_sig(CHILD);
 	env = prepare_env(cmd);
 	check_command_errors(cmd);
@@ -50,8 +57,16 @@ void	handle_child(t_cli *cmd)
 
 int	handle_parent(pid_t pid, t_cli *cmd)
 {
+	int	i;
+
 	waitpid(pid, &cmd->status, 0);
 	ft_set_sig(PARENT);
+	i = 0;
+	while (i < cmd->num_heredocs)
+	{
+		close(cmd->heredocs[i].fd);
+		i++;
+	}
 	if (WIFSIGNALED(cmd->status))
 	{
 		if (WTERMSIG(cmd->status) == SIGINT)

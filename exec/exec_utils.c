@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 16:59:39 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/12 17:58:21 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/12 23:59:04 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	has_pipes_or_redirs(t_cli *cli)
 {
 	while (cli)
 	{
-		if (cli-> infile || cli->outfile || cli->heredoc)
+		if (cli-> infile || cli->outfile || cli->num_heredocs > 0)
 			return (true);
 		if (cli->next)
 			return (true);

@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:58:33 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/06 16:58:34 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/14 12:49:48 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ int				ft_isspace(int c);
 int				ft_strcmp(const char *s1, const char *s2);
 char			*ft_strcat(char *dest, const char *src);
 long long		ft_atoll(const char *str);
+void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 #endif

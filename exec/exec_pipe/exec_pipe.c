@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 10:21:28 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/11 18:50:08 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/13 16:40:06 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ int	execute_pipeline(t_cli *cli)
 	if (!child_pids)
 		return (1);
 	ft_set_sig(IGNORE);
-	if (ft_prepare_all_heredocs(cli) == -1)
-		return (1);
 	child_count = run_pipeline_loop(cli, child_pids, &last_pid);
 	ft_set_sig(IGNORE);
 	exit_code = wait_for_children(last_pid, child_pids, child_count);

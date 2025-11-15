@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:40:15 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/11 19:16:07 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/14 17:30:06 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,22 @@ static void	launch_child(t_cli *cmd, int prev_pipe, int *pipe_fd, bool has_next)
 }
 
 static void	update_pipe_state(t_cli *cmd, bool has_next,
-							int *pipe_fd, int *prev_pipe)
+								int *pipe_fd, int *prev_pipe)
 {
+	int	j;
+
 	if (*prev_pipe != -1)
 		close(*prev_pipe);
-	if (cmd->heredoc_fd != -1)
-		close(cmd->heredoc_fd);
+	j = 0;
+	while (j < cmd->num_heredocs)
+	{
+		if (cmd->heredocs[j].fd >= 0)
+		{
+			close(cmd->heredocs[j].fd);
+			cmd->heredocs[j].fd = -1;
+		}
+		j++;
+	}
 	if (has_next)
 	{
 		close(pipe_fd[1]);

@@ -17,21 +17,30 @@ SRC = minishell.c\
     tokenizing/tokenizer.c\
     tokenizing/token_prep.c\
     tokenizing/token_separator/token_separator.c\
+    tokenizing/token_separator/separator_loop.c\
     tokenizing/token_separator/handle_operator.c\
     tokenizing/token_separator/handle_escape_sequence.c\
     tokenizing/token_separator/handle_translation.c\
     tokenizing/token_separator/handle_quotes.c\
     tokenizing/token_separator/separator_utils.c\
+    tokenizing/token_separator/separator_helpers.c\
+    tokenizing/token_separator/separator_helpers1.c\
     tokenizing/token_expansion/token_expansion.c\
     tokenizing/token_expansion/expansion_utils.c\
+    tokenizing/token_expansion/expand_segment.c\
+    tokenizing/token_expansion/expand_token_seg.c\
+    tokenizing/token_expansion/expansion_helpers.c\
     tokenizing/token_error.c\
     tokenizing/token_finalize.c\
     parsing/parsing.c\
     parsing/parse_redir.c\
     parsing/parse_token.c\
+    parsing/ft_read_heredoc.c\
     parsing/parse_heredoc.c\
     parsing/parse_pipe.c\
     parsing/parse_utils.c\
+    parsing/parse_helpers.c\
+    parsing/handle_heredoc.c\
     signals/signals.c\
     signals/sig_manager.c\
     exec/exec_command.c\
@@ -49,13 +58,18 @@ SRC = minishell.c\
     exec/builtins/ft_pwd.c\
     exec/builtins/ft_unset.c\
     exec/builtins/builtin_utils.c\
-    exec/exec_heredoc.c\
+    exec/exec_heredoc/exec_heredoc.c\
+    exec/exec_heredoc/expand_variables.c\
+    exec/exec_heredoc/heredoc_script.c\
+    exec/exec_heredoc/heredoc_int.c\
     exec/exec_utils.c\
     utils/utils.c\
     utils/utils1.c\
     utils/utils2.c\
+    utils/utils3.c\
+    utils/mem_utils.c\
+    utils/mem_utils1.c\
     utils/loop_utils.c\
-	wildcard_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

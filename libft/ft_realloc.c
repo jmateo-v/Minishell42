@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_expansion.c                                  :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/17 15:11:57 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/14 19:45:07 by dogs             ###   ########.fr       */
+/*   Created: 2025/11/14 12:35:11 by dogs              #+#    #+#             */
+/*   Updated: 2025/11/14 12:36:34 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-t_token	*ft_expand_tokens(t_token *tokens, int *len, t_cli *cli)
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
-	int	i;
+	size_t	copy_size;
+	void	*new_ptr;
 
-	if (!tokens || !len || *len <= 0 || !cli)
+	new_ptr = malloc(new_size);
+	if (!new_ptr)
 		return (NULL);
-	i = 0;
-	while (i < *len)
+	if (ptr)
 	{
-		if (!expand_token_segments(&tokens[i], cli))
-			return (NULL);
-		i++;
+		if (old_size < new_size)
+			copy_size = old_size;
+		else
+			copy_size = new_size;
+		ft_memcpy(new_ptr, ptr, copy_size);
+		free(ptr);
 	}
-	return (tokens);
+	return (new_ptr);
 }

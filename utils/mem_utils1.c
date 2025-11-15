@@ -1,29 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_expansion.c                                  :+:      :+:    :+:   */
+/*   mem_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/17 15:11:57 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/14 19:45:07 by dogs             ###   ########.fr       */
+/*   Created: 2025/11/14 23:04:40 by dogs              #+#    #+#             */
+/*   Updated: 2025/11/14 23:05:05 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-t_token	*ft_expand_tokens(t_token *tokens, int *len, t_cli *cli)
+static void	free_segments(t_segment *segs)
+{
+	int	j;
+
+	if (!segs)
+		return ;
+	j = 0;
+	while (segs[j].value != NULL)
+	{
+		free(segs[j].value);
+		j++;
+	}
+	free(segs);
+}
+
+void	ft_free_tokens(t_token *tokens)
 {
 	int	i;
 
-	if (!tokens || !len || *len <= 0 || !cli)
-		return (NULL);
+	if (!tokens)
+		return ;
 	i = 0;
-	while (i < *len)
+	while (1)
 	{
-		if (!expand_token_segments(&tokens[i], cli))
-			return (NULL);
+		if (tokens[i].segments == NULL && tokens[i].value == NULL)
+			break ;
+		if (tokens[i].value)
+			free(tokens[i].value);
+		free_segments(tokens[i].segments);
 		i++;
 	}
-	return (tokens);
+	free(tokens);
 }
