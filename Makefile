@@ -3,11 +3,18 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
-BONUS_OBJS = wildcard_bonus.o\
+BONUS_OBJS = wildcard_match_bonus.o\
+             wildcard_collect_bonus.o\
+             wildcard_expand_bonus.o\
+             wildcard_cli_bonus.o\
+             wildcard_cli_count_bonus.o\
+             wildcard_cli_fill_bonus.o\
              exec/ft_execute_bonus.o\
              tokenizing/token_error_bonus.o\
 			 exec/ft_execute.o\
-			 parsing/parsing_bonus.o
+			 parsing/parsing_bonus.o\
+			 parsing/parsing_redir_bonus.o\
+			 parsing/parsing_logic_bonus.o
 
 BONUS_BINS = minishell_bonus
 
@@ -53,7 +60,14 @@ SRC = minishell.c\
     utils/temp.c\
     utils/utils.c\
     utils/utils1.c\
-	wildcard_bonus.c
+    wildcard_match_bonus.c\
+    wildcard_collect_bonus.c\
+    wildcard_expand_bonus.c\
+    wildcard_cli_bonus.c\
+    wildcard_cli_count_bonus.c\
+    wildcard_cli_fill_bonus.c\
+	parsing/parsing_redir_bonus.c\
+	parsing/parsing_logic_bonus.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -83,12 +97,6 @@ tokenizing/token_error_bonus.o: tokenizing/token_error_bonus.c minishell.h
 
 minishell_bonus: $(LIBFT_A) $(GNL_A) $(OBJ) parsing/parsing_bonus.o exec/ft_execute_bonus.o tokenizing/token_error_bonus.o
 	cc $(CFLAGS) $(filter-out parsing/parsing.o tokenizing/token_error.o,$(OBJ)) parsing/parsing_bonus.o tokenizing/token_error_bonus.o exec/ft_execute_bonus.o $(LIBFT_A) $(GNL_A) -lreadline -o minishell_bonus
-
-wildcard_bonus: wildcard_bonus.o
-	cc $(CFLAGS) wildcard_bonus.o -o wildcard_bonus
-
-wildcard_bonus.o: wildcard_bonus.c
-	cc $(CFLAGS) -c wildcard_bonus.c -o wildcard_bonus.o
 
 clean:
 	rm -f $(OBJ) $(BONUS_OBJS)

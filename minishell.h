@@ -6,7 +6,7 @@
 /*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/28 20:10:02 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/15 02:48:39 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,11 @@ typedef struct s_token
 	t_quote_type quote_type;
 } t_token;
 
+typedef struct s_parse_ctx
+{
+	t_token	*tokens;
+	int		len;
+}			t_parse_ctx;
 
 typedef struct s_cli
 {

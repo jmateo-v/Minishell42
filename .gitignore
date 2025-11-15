@@ -1,3 +1,4 @@
 # Ignorar carpeta de configuración de VSCode y objetos .o generados por compilación C
 .vscode/
 *.o
+minishell_bonus

@@ -6,7 +6,7 @@
 /*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:37:18 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/11/06 19:26:37 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/14 18:13:12 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,7 @@ static int	execute_expression(t_cli **cursor, int depth, int *last_op)
 			status = execute_expression(cursor, (*cursor)->group, &op);
 		else
 			status = run_pipeline_group(cursor, depth, &op);
-		if (op == AND && status != 0)
-		{
-			skip_remaining_expression(cursor, depth);
-			break ;
-		}
-		if (op == OR && status == 0)
+		if ((op == AND && status != 0) || (op == OR && status == 0))
 		{
 			skip_remaining_expression(cursor, depth);
 			break ;
