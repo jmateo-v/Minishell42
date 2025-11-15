@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:07:34 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/17 11:24:36 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/04 23:00:39 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_shenv		*env;
-	extern int 	rl_catch_signals;
 	t_cli		*cli;
 	int			status;
-	
+
 	(void)argc;
 	(void)argv;
 	cli = ft_setup_shell(envp, &env);

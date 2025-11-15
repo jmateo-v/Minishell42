@@ -6,52 +6,39 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:30:15 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/18 15:30:17 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/10 17:09:38 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    ft_sig_int_parent(int signal)
-{
-	char nl;
+volatile sig_atomic_t	g_sig_rec = 0;
 
-	nl = '\n';
-    g_sig_rec = 1;
-	if (signal == SIGINT)
+int	ft_sig_hook(void)
+{
+	if (g_sig_rec)
 	{
-        write(1, "^C", 2);
-        ioctl(STDIN_FILENO, TIOCSTI, &nl);
-    }
-}
-
-
-void    ft_set_sig(int option)
-{
-    struct sigaction        sa;
-
-    ft_memset(&sa, 0, sizeof(sa));
-    if (option == PARENT)
-    {
-        sa.sa_handler = ft_sig_int_parent;
-        sigaction(SIGINT, &sa, NULL);
-		sa.sa_handler = SIG_IGN;
-        sigaction(SIGQUIT, &sa, NULL);
-    }
-    if (option == CHILD)
-    {
-        sa.sa_handler = SIG_DFL;
-        sigaction(SIGINT, &sa, NULL);
-        sigaction(SIGQUIT, &sa, NULL);
+		rl_done = 1;
 	}
-    if (option == IGNORE)
-    {
-        sa.sa_handler = SIG_IGN;
-        sigaction(SIGINT, &sa, NULL);
-        sigaction(SIGQUIT, &sa, NULL);
-    }
-	return ;
+	return (0);
 }
+
+void	enable_echoctl(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+void	ft_sig_int_parent(int sig)
+{
+	(void)sig;
+	g_sig_rec = 1;
+	write(STDOUT_FILENO, "^C", 2);
+}
+
 int	ft_reset_signal(t_cli *cli)
 {
 	g_sig_rec = 0;

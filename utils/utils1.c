@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 16:30:44 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/18 16:37:55 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/14 23:18:11 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_escaped_line(char *line, int start, int end)
 	return (s = NULL, escaped = NULL, t);
 }
 
-char *ft_esc_line(char *line, int i, int len)
+char	*ft_esc_line(char *line, int i, int len)
 {
 	char	*esc_line;
 	char	*t;
@@ -62,64 +62,48 @@ char *ft_esc_line(char *line, int i, int len)
 	return (esc_line);
 }
 
-char	*ft_escape_quotes(char *line)
+static int	ft_count_backslashes(char *line, int pos)
 {
-	size_t		i;
-	int		len;
-	char	*esc_line;
-	char	*s;
+	int	count;
 
-	if (!line)
-		return (NULL);
-	i = 0;
-	s = ft_strdup(line);
-	while (i < ft_strlen(s))
+	count = 0;
+	while (pos >= 0 && line[pos] == '\\')
 	{
-		if (ft_strchr(QUOTES, s[i]) && (i == 0 || (i > 0 && line[i - 1] != '\\')))
+		count++;
+		pos--;
+	}
+	return (count);
+}
+
+static int	ft_is_escaped_quote(char *line, int i, char quote)
+{
+	int	backslash_count;
+
+	if (quote != '"')
+		return (0);
+	backslash_count = ft_count_backslashes(line, i - 1);
+	if (backslash_count % 2 == 1)
+		return (1);
+	return (0);
+}
+
+int	ft_quoted_len(char *line, char quote)
+{
+	int	i;
+
+	i = 1;
+	while (line[i])
+	{
+		if (line[i] == quote)
 		{
-			len = ft_quoted_len(s + i,  s[i]);
-			if (len < 0)
-				return (free(s), NULL);
-			esc_line = ft_esc_line(s, i , i + len);
-			if (!esc_line)
-				return (free(s), NULL);
-			i += (len - 2);
-			free(s);
-			s = esc_line;
-			continue ;
+			if (ft_is_escaped_quote(line, i, quote))
+			{
+				i++;
+				continue ;
+			}
+			return (i + 1);
 		}
 		i++;
 	}
-	return (s);
+	return (-1);
 }
-int ft_quoted_len(char *line, char quote)
-{
-    
-    int i = 1;
-    while (line[i])
-    {
-        if (line[i] == quote)
-        {
-            if (quote == '"')
-            {
-                int backslash_count = 0;
-                int k = i - 1;
-                while (k >= 0 && line[k] == '\\')
-                {
-                    backslash_count++;
-                    k--;
-                }
-                if (backslash_count % 2 == 1)
-                {
-                    i++;
-                    continue;
-                }
-            }
-            return i + 1;
-        }
-        i++;
-    }
-    return -1;
-}
-
-

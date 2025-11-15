@@ -6,35 +6,30 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:46:30 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/19 11:15:08 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/06 13:11:28 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int is_pipe(const char *s)
+int	is_pipe(const char *s)
 {
-    return (strcmp(s, "|") == 0);
+	return (strcmp(s, "|") == 0);
 }
 
-int ft_token_count(t_token *tokens)
+int	ft_token_count(t_token *tokens)
 {
-    int count = 0;
+	int	count;
 
-    if (!tokens)
-        return 0;
-
-    while (tokens[count].segments)
-    {
-        if (tokens[count].value != NULL)
-            count++;
-        else
-            break;
-    }
-    return count;
+	count = 0;
+	if (!tokens)
+		return (0);
+	while (tokens[count].segments)
+		count++;
+	return (count);
 }
 
-int     ft_args(char *token, t_cli *cli, int pos)
+int	ft_args(char *token, t_cli *cli, int pos)
 {
 	char	**t;
 
@@ -62,8 +57,6 @@ int     ft_args(char *token, t_cli *cli, int pos)
 	return (1);
 }
 
-
-
 char	*ft_cmd_path(char *env_path, char *cmd)
 {
 	int		i;
@@ -74,7 +67,7 @@ char	*ft_cmd_path(char *env_path, char *cmd)
 	i = 0;
 	path = ft_split(env_path, ':');
 	if (!path)
-		return (perror("malloc"), NULL);
+		return (NULL);
 	while (path[i])
 	{
 		t = ft_strjoin(path[i], "/");
@@ -83,7 +76,7 @@ char	*ft_cmd_path(char *env_path, char *cmd)
 		cmd_path = ft_strjoin(t, cmd);
 		free(t);
 		if (!cmd_path)
-		    return (ft_free_str_array(&path), perror("malloc"), NULL);
+			return (ft_free_str_array(&path), perror("malloc"), NULL);
 		if (!access(cmd_path, X_OK))
 			return (ft_free_str_array(&path), cmd_path);
 		free(cmd_path);
@@ -92,15 +85,14 @@ char	*ft_cmd_path(char *env_path, char *cmd)
 	return (ft_free_str_array(&path), NULL);
 }
 
-
 int	ft_cmd(char	*token, t_cli *cli)
 {
 	if (!token)
 		return (0);
 	if (!ft_strcmp(token, "echo")
-	|| !ft_strcmp(token, "cd") || !ft_strcmp(token, "pwd")
-	|| !ft_strcmp(token, "export") || !ft_strcmp(token, "unset")
-	|| !ft_strcmp(token, "env") || !ft_strcmp(token, "exit"))
+		|| !ft_strcmp(token, "cd") || !ft_strcmp(token, "pwd")
+		|| !ft_strcmp(token, "export") || !ft_strcmp(token, "unset")
+		|| !ft_strcmp(token, "env") || !ft_strcmp(token, "exit"))
 		return (cli->is_builtin = 1, cli->cmd = ft_strdup(token), 1);
 	if (token && ft_strchr(token, '/'))
 		cli->cmd = ft_strdup(token);

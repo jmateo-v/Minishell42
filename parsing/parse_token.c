@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:28:24 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/18 15:29:00 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/13 02:35:29 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,9 @@ int	ft_parse_token(t_token *token, int i, t_cli *cli, int *group)
 	{
 		ft_cmd(token[i].value, cli);
 		ft_args(token[i].value, cli, ft_ptr_array_len((void **)cli->args));
-
 		cli->group = *group;
 	}
 	else
-	{
 		ft_args(token[i].value, cli, ft_ptr_array_len((void **)cli->args));
-	}
-
 	return (i);
 }

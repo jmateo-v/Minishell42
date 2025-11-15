@@ -6,76 +6,57 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:39:43 by dogs              #+#    #+#             */
-/*   Updated: 2025/10/17 16:41:00 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/14 19:01:01 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int handle_escape_sequence(const char *line, int i,
-                           char *buffer, int *buf_i,
-                           t_quote_type state,
-                           t_quote_type *current_type)
+static int	handle_single_quote_escape(t_separator_ctx *ctx, int i)
 {
-    int count = 0;
-    while (line[i + count] == '\\')
-        count++;
+	ctx->buffer[ctx->buf_i++] = '\\';
+	return (i + 1);
+}
 
-    char next = line[i + count];
+static int	handle_double_quote_escape(const char *line, int i,
+										t_separator_ctx *ctx)
+{
+	char	next;
 
-    if (next == '$') {
-        int pairs = count / 2;
-        for (int k = 0; k < pairs; k++)
-            buffer[(*buf_i)++] = '\\';
+	next = line[i + 1];
+	if (next == '"' || next == '\\' || next == '$' || next == '`')
+	{
+		ctx->buffer[ctx->buf_i++] = next;
+		if (next == '$')
+			ctx->current_type = QUOTE_LITERAL;
+		return (i + 2);
+	}
+	ctx->buffer[ctx->buf_i++] = '\\';
+	return (i + 1);
+}
 
-        if (count % 2 == 1) {
-            buffer[(*buf_i)++] = '$';
-            *current_type = QUOTE_LITERAL_DOLLAR;
-        } else {
-            buffer[(*buf_i)++] = '$';
-        }
-        return i + count;
-    }
+static int	handle_unquoted_escape(const char *line, int i,
+									t_separator_ctx *ctx)
+{
+	char	next;
 
-    if (next == '|' || next == '<' || next == '>') {
-        int pairs = count / 2;
-        for (int k = 0; k < pairs; k++)
-            buffer[(*buf_i)++] = '\\';
-        if (count % 2 == 1) {
-            buffer[(*buf_i)++] = next;
-            return i + count;
-        } else {
-            return i + count - 1;
-        }
-    }
+	next = line[i + 1];
+	if (next)
+	{
+		ctx->buffer[ctx->buf_i++] = next;
+		if (next == '$')
+			ctx->current_type = QUOTE_LITERAL;
+		return (i + 2);
+	}
+	ctx->buffer[ctx->buf_i++] = '\\';
+	return (i + 1);
+}
 
-    if (state == QUOTE_DOUBLE) {
-        if (next == '"' || next == '\\' || next == '$' || next == '`') {
-            if (next == '$' && (count % 2 == 1)) {
-                buffer[(*buf_i)++] = '$';
-                *current_type = QUOTE_LITERAL_DOLLAR;
-            } else {
-                buffer[(*buf_i)++] = next;
-            }
-            return i + count;
-        } else {
-            buffer[(*buf_i)++] = '\\';
-            return i + 1;
-        }
-    }
-
-    if (state == QUOTE_SINGLE) {
-        buffer[(*buf_i)++] = '\\';
-        return i + 1;
-    }
-
-    int pairs = count / 2;
-    for (int k = 0; k < pairs; k++)
-        buffer[(*buf_i)++] = '\\';
-    if (count % 2 == 1 && next) {
-        buffer[(*buf_i)++] = next;
-        return i + count;
-    } else {
-        return i + count - 1;
-    }
+int	handle_escape_sequence(const char *line, int i, t_separator_ctx *ctx)
+{
+	if (ctx->quote_state == QSTATE_SINGLE)
+		return (handle_single_quote_escape(ctx, i));
+	if (ctx->quote_state == QSTATE_DOUBLE)
+		return (handle_double_quote_escape(line, i, ctx));
+	return (handle_unquoted_escape(line, i, ctx));
 }
