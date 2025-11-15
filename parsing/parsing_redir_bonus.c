@@ -6,7 +6,7 @@
 /*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dansanc3          #+#    #+#             */
-/*   Updated: 2025/11/15 02:51:00 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/15 12:14:04 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	handle_infile(t_parse_ctx *ctx, int *i, t_cli *cli)
 	return (1);
 }
 
-static int	handle_redir(t_parse_ctx *ctx, int *i, t_cli *cli)
+int	handle_redir(t_parse_ctx *ctx, int *i, t_cli *cli)
 {
 	int	ret;
 

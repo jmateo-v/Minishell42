@@ -6,12 +6,12 @@
 /*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dansanc3          #+#    #+#             */
-/*   Updated: 2025/11/15 02:41:57 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/15 12:10:48 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static int	evaluate_ret(int ret)
 {

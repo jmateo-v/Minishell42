@@ -14,7 +14,9 @@ BONUS_OBJS = wildcard_match_bonus.o\
 			 exec/ft_execute.o\
 			 parsing/parsing_bonus.o\
 			 parsing/parsing_redir_bonus.o\
-			 parsing/parsing_logic_bonus.o
+			 parsing/parsing_logic_bonus.o\
+			exec/ft_execute_helpers_bonus.o\
+			tokenizing/handle_redirection_bonus.o
 
 BONUS_BINS = minishell_bonus
 
@@ -67,7 +69,9 @@ SRC = minishell.c\
     wildcard_cli_count_bonus.c\
     wildcard_cli_fill_bonus.c\
 	parsing/parsing_redir_bonus.c\
-	parsing/parsing_logic_bonus.c
+	parsing/parsing_logic_bonus.c\
+	exec/ft_execute_helpers_bonus.c\
+	tokenizing/handle_redirection_bonus.c
 
 OBJ = $(SRC:.c=.o)
 
