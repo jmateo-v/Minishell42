@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:29:01 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/14 19:03:44 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/19 18:43:25 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	build_operator_buffer(char c, const char *line,
 		buffer[1] = '\0';
 }
 
-static int	init_token_segments(t_token *token, const char *buffer)
+int	init_token_segments(t_token *token, const char *buffer)
 {
 	token->segments = ft_calloc(2, sizeof(t_segment));
 	if (!token->segments)

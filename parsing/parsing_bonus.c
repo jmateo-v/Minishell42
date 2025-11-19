@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dansanc3          #+#    #+#             */
-/*   Updated: 2025/11/15 12:10:48 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/19 18:48:34 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	evaluate_ret(int ret)
 	return (0);
 }
 
-static int	process_pipe_token(t_parse_ctx *ctx, int index, t_cli **cli)
+static int	process_pipe_token(t_b_parse_ctx *ctx, int index, t_cli **cli)
 {
 	if (!ctx->tokens[index].value
 		|| !is_pipe(ctx->tokens[index].value))
@@ -32,7 +32,7 @@ static int	process_pipe_token(t_parse_ctx *ctx, int index, t_cli **cli)
 	return (1);
 }
 
-static int	process_token(t_parse_ctx *ctx, t_cli **cli, int *i, int *group)
+static int	process_token(t_b_parse_ctx *ctx, t_cli **cli, int *i, int *group)
 {
 	int	ret;
 
@@ -42,7 +42,7 @@ static int	process_token(t_parse_ctx *ctx, t_cli **cli, int *i, int *group)
 	ret = process_or(ctx, cli, i);
 	if (ret)
 		return (evaluate_ret(ret));
-	ret = handle_redir(ctx, i, *cli);
+	ret = handle_redir_bonus(ctx, i, *cli);
 	if (ret)
 		return (evaluate_ret(ret));
 	ret = process_pipe_token(ctx, *i, cli);
@@ -58,7 +58,7 @@ static int	process_token(t_parse_ctx *ctx, t_cli **cli, int *i, int *group)
 	return (0);
 }
 
-static int	iterate_tokens(t_parse_ctx *ctx, t_cli *cli)
+static int	iterate_tokens(t_b_parse_ctx *ctx, t_cli *cli)
 {
 	int		ret;
 	int		i;
@@ -84,7 +84,7 @@ static int	iterate_tokens(t_parse_ctx *ctx, t_cli *cli)
 
 int	ft_parse(t_token *tokens, t_cli *cli)
 {
-	t_parse_ctx	ctx;
+	t_b_parse_ctx	ctx;
 
 	if (!tokens || !cli)
 		return (2);

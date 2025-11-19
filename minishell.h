@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/15 12:43:01 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/19 18:55:28 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,18 @@ typedef enum e_seg_type
 	QUOTE_TRANSLATION,
 	QUOTE_LITERAL,
 	REDIRECTION,
-	OPERATOR
+	OPERATOR,
+	OP_BRACKETS,
+	CL_BRACKETS
 }	t_seg_type;
 
 typedef enum e_token_type
 {
 	T_WORD = 0,
 	T_REDIRECTION,
-	T_OPERATOR
+	T_OPERATOR,
+	T_OP_BRACKETS,
+	T_CL_BRACKETS
 }	t_token_type;
 
 typedef struct s_segment
@@ -133,12 +137,6 @@ typedef struct s_shenv
 	char			*var;
 	struct s_shenv	*next;
 }	t_shenv;
-
-typedef struct s_parse_ctx
-{
-	t_token	*tokens;
-	int		len;
-}			t_parse_ctx;
 
 typedef struct s_heredoc
 {
@@ -264,7 +262,6 @@ t_cli	*ft_parse_pipe(char *token, t_cli *cli);
 t_shenv	*ft_load_env(char **envp);
 void	ft_print_list(t_cli *cli);
 char	*ft_trim_spaces(char *line);
-void	print_tokens(t_token *tokens);
 int		ft_token_count(t_token *tokens);
 void	ft_finalize_tokens(t_token *tokens);
 int		ft_token_finalize(t_token *tok);
@@ -330,5 +327,6 @@ void	cleanup(char *a, char *b, char *c, char *d);
 t_token	*clean_err_return(char *line, t_segment *segments, t_token *tokens);
 char	*append_literal_dollar(char *seg_expanded);
 char	*append_var_value(char *seg_expanded, const char *var, t_cli *cli);
+int	init_token_segments(t_token *token, const char *buffer);
 
 #endif

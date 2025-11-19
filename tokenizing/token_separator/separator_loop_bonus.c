@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   separator_loop.c                                   :+:      :+:    :+:   */
+/*   separator_loop_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/14 19:27:15 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/19 17:50:55 by dogs             ###   ########.fr       */
+/*   Created: 2025/11/19 17:54:21 by dogs              #+#    #+#             */
+/*   Updated: 2025/11/19 18:41:19 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../include/minishell_bonus.h"
 
 static int	handle_dollar_cases(char *line, int i, t_separator_ctx *ctx)
 {
@@ -42,10 +43,14 @@ static int	handle_none_state(char *line, int i, t_separator_ctx *ctx)
 		if (i < 0)
 			return (-1);
 	}
+    else if (c == '(' || c == ')')
+        i = handle_parenthesis_char(line, i, ctx); //TODO
 	else if (c == '>' || c == '<' || c == '|')
 		i = handle_operator_char(c, line, i, ctx);
 	else if (c == '$')
 		i = handle_dollar_cases(line, i, ctx);
+    /*else if (c == '*')
+        i = handle_wildcard(line, i, ctx); TODO */
 	else
 		i = handle_unquoted_char(c, i, ctx);
 	return (i);

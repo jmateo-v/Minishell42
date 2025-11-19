@@ -1,24 +1,8 @@
 NAME = minishell
+BONUS_BINS = minishell_bonus
 
 LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
-
-BONUS_OBJS = wildcard_match_bonus.o\
-             wildcard_collect_bonus.o\
-             wildcard_expand_bonus.o\
-             wildcard_cli_bonus.o\
-             wildcard_cli_count_bonus.o\
-             wildcard_cli_fill_bonus.o\
-             exec/ft_execute_bonus.o\
-             tokenizing/token_error_bonus.o\
-			 exec/ft_execute.o\
-			 parsing/parsing_bonus.o\
-			 parsing/parsing_redir_bonus.o\
-			 parsing/parsing_logic_bonus.o\
-			exec/ft_execute_helpers_bonus.o\
-			tokenizing/handle_redirection_bonus.o
-
-BONUS_BINS = minishell_bonus
 
 GNL_DIR = get_next_line
 GNL_A = $(GNL_DIR)/get_next_line.a
@@ -79,16 +63,6 @@ SRC = minishell.c\
     exec/exec_utils.c\
     utils/utils.c\
     utils/utils1.c\
-    wildcard_match_bonus.c\
-    wildcard_collect_bonus.c\
-    wildcard_expand_bonus.c\
-    wildcard_cli_bonus.c\
-    wildcard_cli_count_bonus.c\
-    wildcard_cli_fill_bonus.c\
-	parsing/parsing_redir_bonus.c\
-	parsing/parsing_logic_bonus.c\
-	exec/ft_execute_helpers_bonus.c\
-	tokenizing/handle_redirection_bonus.c\
     utils/utils2.c\
     utils/utils3.c\
     utils/mem_utils.c\
@@ -97,8 +71,31 @@ SRC = minishell.c\
 
 OBJ = $(SRC:.c=.o)
 
+BONUS_SRC = wildcard_match_bonus.c\
+             wildcard_collect_bonus.c\
+             wildcard_expand_bonus.c\
+             wildcard_cli_bonus.c\
+             wildcard_cli_count_bonus.c\
+             wildcard_cli_fill_bonus.c\
+             exec/ft_execute_bonus.c\
+             tokenizing/token_separator/separator_loop_bonus.c\
+             tokenizing/token_separator/separator_helpers_bonus.c\
+             tokenizing/token_error_bonus.c\
+			 parsing/parsing_bonus.c\
+			 parsing/parsing_redir_bonus.c\
+			 parsing/parsing_logic_bonus.c\
+			exec/ft_execute_helpers_bonus.c\
+			tokenizing/handle_redirection_bonus.c
+
+BONUS_OBJ = $(BONUS_SRC:.c=.o)
+
+FILTER = parsing/parsing.o\
+            tokenizing/token_error.o\
+            tokenizing/token_separator/separator_loop.o
+
+
+
 CFLAGS += -g -I$(LIBFT_DIR) -Iinclude $(GNL_HEADER) -Wall -Wextra -Werror -fsanitize=address
-CFLAGS += -g -I$(LIBFT_DIR) $(GNL_HEADER) -Wall -Wextra -Werror #-fsanitize=address
 
 all: $(NAME)
 
@@ -116,17 +113,12 @@ $(GNL_A):
 
 bonus: $(BONUS_BINS)
 
-parsing/parsing_bonus.o: parsing/parsing_bonus.c minishell.h
-	cc $(CFLAGS) -c parsing/parsing_bonus.c -o parsing/parsing_bonus.o
-
-tokenizing/token_error_bonus.o: tokenizing/token_error_bonus.c minishell.h
-	cc $(CFLAGS) -c tokenizing/token_error_bonus.c -o tokenizing/token_error_bonus.o
-
-minishell_bonus: $(LIBFT_A) $(GNL_A) $(OBJ) parsing/parsing_bonus.o exec/ft_execute_bonus.o tokenizing/token_error_bonus.o
-	cc $(CFLAGS) $(filter-out parsing/parsing.o tokenizing/token_error.o,$(OBJ)) parsing/parsing_bonus.o tokenizing/token_error_bonus.o exec/ft_execute_bonus.o $(LIBFT_A) $(GNL_A) -lreadline -o minishell_bonus
+$(BONUS_BINS): $(LIBFT_A) $(GNL_A) $(OBJ) $(BONUS_OBJ)
+	$(CC) $(CFLAGS) $(filter-out $(FILTER),$(OBJ)) \
+    $(BONUS_OBJ) $(LIBFT_A) $(GNL_A) -lreadline -o $@
 
 clean:
-	rm -f $(OBJ) $(BONUS_OBJS)
+	rm -f $(OBJ) $(BONUS_OBJ)
 	$(MAKE) clean -C $(LIBFT_DIR)
 	$(MAKE) clean -C $(GNL_DIR)
 

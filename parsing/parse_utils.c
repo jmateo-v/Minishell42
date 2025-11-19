@@ -6,7 +6,7 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:46:30 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/06 13:11:28 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/19 18:38:04 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	ft_cmd(char	*token, t_cli *cli)
 	if (token && ft_strchr(token, '/'))
 		cli->cmd = ft_strdup(token);
 	else
-		cli->cmd = ft_cmd_path(getenv("PATH"), token);
+		cli->cmd = ft_cmd_path(ft_getenv(*cli->env, "PATH"), token);
 	if (!cli->cmd)
 		cli->cmd = ft_strdup(token);
 	return (1);

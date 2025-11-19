@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_logic_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dansanc3          #+#    #+#             */
-/*   Updated: 2025/11/15 12:14:31 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/19 18:51:43 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	create_next_cli(t_cli **cli, int step, int *i, int op)
 	return (1);
 }
 
-int	process_and(t_parse_ctx *ctx, t_cli **cli, int *i)
+int	process_and(t_b_parse_ctx *ctx, t_cli **cli, int *i)
 {
 	int	step;
 
@@ -46,7 +46,7 @@ int	process_and(t_parse_ctx *ctx, t_cli **cli, int *i)
 	return (create_next_cli(cli, step, i, AND));
 }
 
-int	process_or(t_parse_ctx *ctx, t_cli **cli, int *i)
+int	process_or(t_b_parse_ctx *ctx, t_cli **cli, int *i)
 {
 	int	step;
 
