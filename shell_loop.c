@@ -6,13 +6,13 @@
 /*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:23:56 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/19 18:55:06 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/19 19:10:48 by dogs             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void print_tokens(t_token *tokens)
+/*static void print_tokens(t_token *tokens)
 {
     if (!tokens) {
         printf("No tokens to print.\n");
@@ -46,7 +46,7 @@ static void print_tokens(t_token *tokens)
             printf("  Warning: Token[%d] has no finalized value!\n", k);
         }
     }
-}
+}*/
 char	*ft_read_input(void)
 {
 	char	*cl;
@@ -85,7 +85,7 @@ int	ft_process_command(char *cl, t_cli *cli)
 	tokens = ft_tokenize_cl(cl, cli);
 	if (!tokens)
 		return (2);
-	print_tokens(tokens);
+	//print_tokens(tokens);
 	cli->status = ft_parse(tokens, cli);
 	cli->status = ft_execute(cli);
 	ft_free_tokens(tokens);
