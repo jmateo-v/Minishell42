@@ -6,7 +6,7 @@
 /*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dansanc3          #+#    #+#             */
-/*   Updated: 2025/11/21 14:50:24 by jmateo-v         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:18:20 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,43 +32,43 @@ static int	check_redirection(t_token *tokens, int n_tokens, int i)
 	return (0);
 }
 
-static int check_pipe(t_token *tokens, int n_tokens, int i)
+static int	check_pipe(t_token *tokens, int n_tokens, int i)
 {
-    if (tokens[i].token_type == T_OPERATOR
-        && ft_strcmp(tokens[i].value, "|") == 0)
-    {
-        if (i == 0 || i == n_tokens - 1)
-            return (ft_perror("|", PIPE_ERR), 1);
-        if (tokens[i-1].token_type != T_WORD &&
-            tokens[i-1].token_type != T_CL_BRACKETS)
-            return (ft_perror(tokens[i].value, PIPE_ERR), 1);
-        if (tokens[i+1].token_type != T_WORD &&
-            tokens[i+1].token_type != T_OP_BRACKETS)
-            return (ft_perror(tokens[i].value, PIPE_ERR), 1);
-    }
-    return (0);
+	if (tokens[i].token_type == T_OPERATOR
+		&& ft_strcmp(tokens[i].value, "|") == 0)
+	{
+		if (i == 0 || i == n_tokens - 1)
+			return (ft_perror("|", PIPE_ERR), 1);
+		if (tokens[i - 1].token_type != T_WORD
+			&& tokens[i - 1].token_type != T_CL_BRACKETS)
+			return (ft_perror(tokens[i].value, PIPE_ERR), 1);
+		if (tokens[i + 1].token_type != T_WORD
+			&& tokens[i + 1].token_type != T_OP_BRACKETS)
+			return (ft_perror(tokens[i].value, PIPE_ERR), 1);
+	}
+	return (0);
 }
-static int check_parenthesis_balance(t_token *tokens, int n_tokens)
+
+static int	check_parenthesis_balance(t_token *tokens, int n_tokens)
 {
-    int balance;
-	int i;
+	int	balance;
+	int	i;
 
 	balance = 0;
 	i = 0;
-    while (i < n_tokens)
-    {
-        if (tokens[i].token_type == T_OP_BRACKETS)
-            balance++;
-        else if (tokens[i].token_type == T_CL_BRACKETS)
-            balance--;
-        if (balance < 0)
-            return (ft_perror(")", ERR_PARENTHESIS), 1);
+	while (i < n_tokens)
+	{
+		if (tokens[i].token_type == T_OP_BRACKETS)
+			balance++;
+		else if (tokens[i].token_type == T_CL_BRACKETS)
+			balance--;
+		if (balance < 0)
+			return (ft_perror(")", ERR_PARENTHESIS), 1);
 		i++;
-    }
-    if (balance != 0)
-        return (ft_perror("(", ERR_PARENTHESIS), 1);
-
-    return 0;
+	}
+	if (balance != 0)
+		return (ft_perror("(", ERR_PARENTHESIS), 1);
+	return (0);
 }
 
 int	ft_check_errors(t_token *tokens, int n_tokens)
@@ -76,10 +76,10 @@ int	ft_check_errors(t_token *tokens, int n_tokens)
 	int	i;
 	int	err;
 
-	i = 0;
+	i = -1;
 	if (!tokens || n_tokens == 0)
 		return (ft_perror("(null)", ERR_NULL_TOKEN), 1);
-	while (i < n_tokens)
+	while (++i < n_tokens)
 	{
 		err = check_null_or_empty(tokens, n_tokens, i);
 		if (err)
@@ -92,11 +92,10 @@ int	ft_check_errors(t_token *tokens, int n_tokens)
 			return (err);
 		err = check_logic(tokens, n_tokens, i);
 		if (err)
-			return(err);
-		i++;
+			return (err);
 	}
-		err = check_parenthesis_balance(tokens, n_tokens);
-    	if (err)
-			return err;
+	err = check_parenthesis_balance(tokens, n_tokens);
+	if (err)
+		return (err);
 	return (0);
 }

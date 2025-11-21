@@ -6,7 +6,7 @@
 /*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 13:57:07 by jmateo-v          #+#    #+#             */
-/*   Updated: 2025/11/21 14:12:04 by jmateo-v         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:10:28 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 static void	set_token_type(t_token *token, char *buffer)
 {
 	if (buffer[0] == '&' && buffer[1] == '&')
-    {
-        token->segments[0].type = LOGICAL_OP;
-        token->token_type = T_LOGIC_OP;
-    }
-    else if (buffer[0] == '|' && buffer[1] == '|')
-    {
-        token->segments[0].type = LOGICAL_OP;
-        token->token_type = T_LOGIC_OP;
-    }
+	{
+		token->segments[0].type = LOGICAL_OP;
+		token->token_type = T_LOGIC_OP;
+	}
+	else if (buffer[0] == '|' && buffer[1] == '|')
+	{
+		token->segments[0].type = LOGICAL_OP;
+		token->token_type = T_LOGIC_OP;
+	}
 }
 
 static void	add_lop_token(char c, t_separator_ctx *ctx)

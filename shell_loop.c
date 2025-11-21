@@ -6,47 +6,12 @@
 /*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:23:56 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/21 14:42:47 by jmateo-v         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:09:04 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*static void print_tokens(t_token *tokens)
-{
-    if (!tokens) {
-        printf("No tokens to print.\n");
-        return;
-    }
-
-    for (int k = 0; tokens[k].segments != NULL; k++)  // Check for null segments array explicitly
-    {
-        printf("token[%d]:\n", k);
-
-        if (tokens[k].segments == NULL) {
-            printf("  Warning: Token %d has no segments!\n", k);
-        }
-
-        for (int s = 0; tokens[k].segments[s].value != NULL; s++)  // Check for null segment values explicitly
-        {
-            if (tokens[k].segments[s].value == NULL) {
-                printf("  Warning: Segment %d in token[%d] is NULL!\n", s, k);
-            } else {
-                printf("  segment[%d]: [%s] (type=%d)\n",
-                       s, tokens[k].segments[s].value, tokens[k].segments[s].type);
-            }
-        }
-
-        if (tokens[k].value != NULL)
-        {
-            printf("  finalized value: [%s]\n", tokens[k].value);
-        }
-        else
-        {
-            printf("  Warning: Token[%d] has no finalized value!\n", k);
-        }
-    }
-}*/
 char	*ft_read_input(void)
 {
 	char	*cl;
@@ -85,7 +50,6 @@ int	ft_process_command(char *cl, t_cli *cli)
 	tokens = ft_tokenize_cl(cl, cli);
 	if (!tokens)
 		return (2);
-	//print_tokens(tokens);
 	cli->status = ft_parse(tokens, cli);
 	cli->status = ft_execute(cli);
 	ft_free_tokens(tokens);

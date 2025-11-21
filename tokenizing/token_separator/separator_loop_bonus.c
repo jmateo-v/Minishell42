@@ -6,7 +6,7 @@
 /*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:54:21 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/21 14:18:00 by jmateo-v         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:11:50 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static int	handle_none_state(char *line, int i, t_separator_ctx *ctx)
 	}
 	else if (c == '(' || c == ')')
 		i = handle_parenthesis_char(line, i, ctx);
-	else if ((c == '&' && line[i+1] == '&') || (c == '|' && line[i+1] == '|'))
+	else if ((c == '&' && line[i + 1] == '&')
+		|| (c == '|' && line[i + 1] == '|'))
 		i = handle_logic_operator(line, i, ctx);
 	else if (c == '>' || c == '<' || (c == '|' && line[i + 1] != '|'))
 		i = handle_operator_char(c, line, i, ctx);
