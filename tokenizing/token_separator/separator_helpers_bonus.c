@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   separator_helpers_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 18:01:05 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/19 18:45:18 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/21 11:54:29 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include "../../include/minishell_bonus.h"
-
 
 static void	set_token_type(t_token *token, char *buffer)
 {
@@ -28,39 +27,36 @@ static void	set_token_type(t_token *token, char *buffer)
 	}
 }
 
-static void add_parenthesis_token(char c, t_separator_ctx *ctx)
+static void	add_parenthesis_token(char c, t_separator_ctx *ctx)
 {
-    char buffer[2];
-    t_token *token;
+	char	buffer[2];
+	t_token	*token;
 
-    buffer[0] = c;
-    buffer[1] = '\0';
-
-    token = &ctx->tokens[ctx->token_i];
-    if (!init_token_segments(token, buffer))
-        return;
-    set_token_type(token, buffer);
-    token->value = ft_strdup(buffer);
-    ctx->token_i++;
+	buffer[0] = c;
+	buffer[1] = '\0';
+	token = &ctx->tokens[ctx->token_i];
+	if (!init_token_segments(token, buffer))
+		return ;
+	set_token_type(token, buffer);
+	token->value = ft_strdup(buffer);
+	ctx->token_i++;
 }
 
-static void handle_parenthesis(char *line, int *i, t_separator_ctx *ctx)
+static void	handle_parenthesis(char *line, int *i, t_separator_ctx *ctx)
 {
-    if (ctx->buf_i > 0)
-        flush_segment(ctx);
-    if (ctx->seg_i > 0)
-    {
-        flush_token(ctx);
-        ctx->seg_i = 0;
-    }
-    add_parenthesis_token(line[*i], ctx);
-    ctx->seg_i = 0;
+	if (ctx->buf_i > 0)
+		flush_segment(ctx);
+	if (ctx->seg_i > 0)
+	{
+		flush_token(ctx);
+		ctx->seg_i = 0;
+	}
+	add_parenthesis_token(line[*i], ctx);
+	ctx->seg_i = 0;
 }
 
-int handle_parenthesis_char(char *line, int i, t_separator_ctx *ctx)
+int	handle_parenthesis_char(char *line, int i, t_separator_ctx *ctx)
 {
-    handle_parenthesis(line, &i, ctx);
-    return (i + 1);
+	handle_parenthesis(line, &i, ctx);
+	return (i + 1);
 }
-
-

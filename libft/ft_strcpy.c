@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 10:06:22 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/19 18:33:09 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/21 11:55:34 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,3 @@ char	*ft_strcpy(char *dest, const char *src)
 	dest[i] = '\0';
 	return (dest);
 }
-

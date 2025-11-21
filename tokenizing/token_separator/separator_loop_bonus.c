@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   separator_loop_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:54:21 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/19 18:41:19 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/21 11:54:12 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static int	handle_none_state(char *line, int i, t_separator_ctx *ctx)
 		if (i < 0)
 			return (-1);
 	}
-    else if (c == '(' || c == ')')
-        i = handle_parenthesis_char(line, i, ctx); //TODO
+	else if (c == '(' || c == ')')
+		i = handle_parenthesis_char(line, i, ctx); //TODO
 	else if (c == '>' || c == '<' || c == '|')
 		i = handle_operator_char(c, line, i, ctx);
 	else if (c == '$')

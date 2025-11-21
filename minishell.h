@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dogs <dogs@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/19 18:55:28 by dogs             ###   ########.fr       */
+/*   Updated: 2025/11/21 11:57:41 by dansanc3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,6 +327,6 @@ void	cleanup(char *a, char *b, char *c, char *d);
 t_token	*clean_err_return(char *line, t_segment *segments, t_token *tokens);
 char	*append_literal_dollar(char *seg_expanded);
 char	*append_var_value(char *seg_expanded, const char *var, t_cli *cli);
-int	init_token_segments(t_token *token, const char *buffer);
+int		init_token_segments(t_token *token, const char *buffer);
 
 #endif
