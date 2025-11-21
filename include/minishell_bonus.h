@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:54:18 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/21 11:57:09 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:31:32 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_BONUS_H
 # define MINISHELL_BONUS_H
-
+# define ERR_LOGIC_OP "minishell: syntax error: unexpected token near "
+# define ERR_PARENTHESIS "minishell: syntax error: unexpected token near "
 # include <stddef.h> //TODO revisar si está permitido
 
 typedef struct s_b_parse_ctx
@@ -33,4 +34,6 @@ void	skip_remaining_expression(t_cli **cursor, int depth);
 int		run_pipeline_group(t_cli **cursor, int depth, int *last_op);
 int		handle_redirection(char *curr, char *next);
 int		handle_parenthesis_char(char *line, int i, t_separator_ctx *ctx);
+int		handle_logic_operator(char *line, int i, t_separator_ctx *ctx);
+int		check_logic(t_token *tokens, int n_tokens, int i);
 #endif

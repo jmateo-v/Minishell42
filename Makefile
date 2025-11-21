@@ -79,8 +79,10 @@ BONUS_SRC = wildcard_match_bonus.c\
              wildcard_cli_fill_bonus.c\
              exec/ft_execute_bonus.c\
              tokenizing/token_separator/separator_loop_bonus.c\
-             tokenizing/token_separator/separator_helpers_bonus.c\
-             tokenizing/token_error_bonus.c\
+             tokenizing/token_separator/separator_parenthesis_bonus.c\
+             tokenizing/token_separator/separator_logic_bonus.c\
+             tokenizing/token_separator/token_error_bonus.c\
+             tokenizing/token_separator/token_error_helpers_bonus.c\
 			 parsing/parsing_bonus.c\
 			 parsing/parsing_redir_bonus.c\
 			 parsing/parsing_logic_bonus.c\

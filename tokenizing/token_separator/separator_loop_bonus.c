@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   separator_loop_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:54:21 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/21 11:54:12 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:18:00 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ static int	handle_none_state(char *line, int i, t_separator_ctx *ctx)
 			return (-1);
 	}
 	else if (c == '(' || c == ')')
-		i = handle_parenthesis_char(line, i, ctx); //TODO
-	else if (c == '>' || c == '<' || c == '|')
+		i = handle_parenthesis_char(line, i, ctx);
+	else if ((c == '&' && line[i+1] == '&') || (c == '|' && line[i+1] == '|'))
+		i = handle_logic_operator(line, i, ctx);
+	else if (c == '>' || c == '<' || (c == '|' && line[i + 1] != '|'))
 		i = handle_operator_char(c, line, i, ctx);
 	else if (c == '$')
 		i = handle_dollar_cases(line, i, ctx);
-    /*else if (c == '*')
-        i = handle_wildcard(line, i, ctx); TODO */
 	else
 		i = handle_unquoted_char(c, i, ctx);
 	return (i);

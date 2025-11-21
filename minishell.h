@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dansanc3 <dansanc3@student.42madrid>       +#+  +:+       +#+        */
+/*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/21 11:57:41 by dansanc3         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:00:35 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef enum e_seg_type
 	QUOTE_LITERAL,
 	REDIRECTION,
 	OPERATOR,
+	LOGICAL_OP,
 	OP_BRACKETS,
 	CL_BRACKETS
 }	t_seg_type;
@@ -101,6 +102,7 @@ typedef enum e_token_type
 	T_REDIRECTION,
 	T_OPERATOR,
 	T_OP_BRACKETS,
+	T_LOGIC_OP,
 	T_CL_BRACKETS
 }	t_token_type;
 
