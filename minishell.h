@@ -6,7 +6,7 @@
 /*   By: jmateo-v <jmateo-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:29:38 by dogs              #+#    #+#             */
-/*   Updated: 2025/11/21 14:00:35 by jmateo-v         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:57:30 by jmateo-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,27 +187,18 @@ typedef struct s_parse_ctx
 }	t_parse_ctx;
 
 bool	has_pipes_or_redirs(t_cli *cli);
-char	**ft_expand_wildcard(char **token, int pos, int *wc_len);
 t_token	*ft_token_sep(char *line);
-char	**ft_insert_s_tokens(char **tokens);
-char	**ft_lex_pipe(char **token, int *len);
 t_token	*ft_expand_tokens(t_token *tokens, int *len, t_cli *cli);
 t_token	*ft_tokenize_cl(char *line, t_cli *cli);
-t_token	*ft_strip_quotes(t_token *tokens);
 char	**ft_getshenv(t_shenv *env);
-char	*ft_prompt(char **envp);
-char	*get_hostname(void);
-char	*get_pwd(char *cwd);
 char	*ft_expand_line(char *token, t_cli *cli);
 char	*ft_expand_var(const char *var, t_shenv *env, t_cli *cli);
-char	*ft_get_var(char *var_call, char **envp);
 char	*ft_escaped_line(char *line, int start, int end);
 char	*ft_escape_quotes(char *line);
 char	*ft_trim_delim(char *token, int *option);
 char	*ft_expand_heredoc(int option, t_cli *cli);
 char	*ft_cmd_path(char *env_path, char *cmd);
 char	*ft_getenv(t_shenv *env, char *key);
-char	*ft_expand_exit_status(int status, char *line, int i);
 int		ft_heredoc_len(char *line);
 int		ft_parse_token(t_token *token, int i, t_cli *cli, int *group);
 int		ft_parse(t_token *tokens, t_cli *cli);
@@ -225,12 +216,9 @@ int		execute_command(t_cli *cli);
 int		execute_builtin(t_cli *cmd);
 int		ft_execute(t_cli *cli);
 int		execute_pipeline(t_cli *cli);
-int		ft_num_quoted(char *line);
 int		ft_quoted_len(char *line, char quote);
 int		shell_loop(t_cli *cli);
-int		ft_num_s_tokens(char *line);
 int		ft_precount_tokens(const char *line);
-int		ft_var_len(char	*var);
 int		ft_trim_s_len(char *line);
 int		ft_append(char *token, t_cli *cli);
 int		ft_heredoc(t_heredoc *hdoc, t_cli *cli);
@@ -262,19 +250,15 @@ void	ft_reset_list(t_cli *cli);
 t_cli	*ft_init_node(int len, t_shenv **envp, int op);
 t_cli	*ft_parse_pipe(char *token, t_cli *cli);
 t_shenv	*ft_load_env(char **envp);
-void	ft_print_list(t_cli *cli);
 char	*ft_trim_spaces(char *line);
 int		ft_token_count(t_token *tokens);
 void	ft_finalize_tokens(t_token *tokens);
 int		ft_token_finalize(t_token *tok);
 bool	is_directory(const char *path);
 void	ft_free_str_array(char ***ptr);
-char	*ft_strndup(const char *src, size_t n);
 char	*ft_esc_str(char *s, char *esc_char, size_t n);
-int		ft_isspace(int c);
 size_t	ft_ptr_array_len(void **ptr);
 char	**ft_add_str(char **dptr, const char *ptr, int pos);
-char	*ft_strcpy(char *dest, const char *src);
 char	*ft_esc_line(char *line, int i, int len);
 void	ft_cleanup_shell(t_cli **cli, t_shenv **env);
 t_cli	*ft_setup_shell(char **envp, t_shenv **env);
@@ -282,10 +266,6 @@ int		ft_reset_signal(t_cli *cli);
 void	ft_trunc(char *filename, t_cli *cli);
 int		is_pipe(const char *s);
 void	check_command_errors(t_cli *cmd);
-int		ft_prepare_heredoc_fd(t_cli *cli);
-int		ft_prepare_all_heredocs(t_cli *cli);
-int		new_ft_check_errors(t_token *tokens, int n_tokens);
-void	check_echoctl(void);
 void	enable_echoctl(void);
 int		ft_sig_hook(void);
 char	*ft_read_with_hook(char *cl);

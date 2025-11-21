@@ -97,7 +97,7 @@ FILTER = parsing/parsing.o\
 
 
 
-CFLAGS += -g -I$(LIBFT_DIR) -Iinclude $(GNL_HEADER) -Wall -Wextra -Werror -fsanitize=address
+CFLAGS += -g -I$(LIBFT_DIR) -Iinclude $(GNL_HEADER) -Wall -Wextra -Werror
 
 all: $(NAME)
 
