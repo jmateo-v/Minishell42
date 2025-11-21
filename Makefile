@@ -41,6 +41,7 @@ SRC = minishell.c\
     parsing/handle_heredoc.c\
     signals/signals.c\
     signals/sig_manager.c\
+    exec/ft_execute.c\
     exec/exec_command.c\
     exec/exec_builtin.c\
     exec/exec_pipe/exec_pipe.c\
@@ -93,7 +94,8 @@ BONUS_OBJ = $(BONUS_SRC:.c=.o)
 
 FILTER = parsing/parsing.o\
             tokenizing/token_error.o\
-            tokenizing/token_separator/separator_loop.o
+            tokenizing/token_separator/separator_loop.o\
+            exec/ft_execute.o
 
 
 
@@ -101,8 +103,8 @@ CFLAGS += -g -I$(LIBFT_DIR) -Iinclude $(GNL_HEADER) -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(LIBFT_A) $(GNL_A) $(OBJ) exec/ft_execute.o
-	cc $(CFLAGS) $(OBJ) exec/ft_execute.o $(LIBFT_A) $(GNL_A) -lreadline -o $(NAME)
+$(NAME): $(LIBFT_A) $(GNL_A) $(OBJ) 
+	cc $(CFLAGS) $(OBJ)  $(LIBFT_A) $(GNL_A) -lreadline -o $(NAME)
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
